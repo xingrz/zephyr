@@ -198,7 +198,11 @@ static int IRAM_ATTR spi_esp32_configure(const struct device *dev,
 		.clock_speed_hz = spi_cfg->frequency,
 		.duty_cycle = cfg->duty_cycle == 0 ? 128 : cfg->duty_cycle,
 		.input_delay_ns = cfg->input_delay_ns,
+#ifdef CONFIG_SPI_ESP32_IOMUX
+		.use_gpio = false
+#else
 		.use_gpio = true
+#endif
 	};
 
 	spi_hal_cal_clock_conf(&timing_param, &freq, &hal_dev->timing_conf);

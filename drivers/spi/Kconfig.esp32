@@ -17,4 +17,11 @@ config SPI_ESP32_INTERRUPT
 	help
 	  Enables interrupt support for ESP32 SPI driver.
 
+config SPI_ESP32_IOMUX
+	bool "ESP32 SPI IO MUX mode"
+	help
+	  Routes SPI pins through IO MUX, instead of GPIO matrix. This enables the
+	  SPI driver to work in a clock speed higher than 20 MHz. Only available for
+	  some specific pins.
+
 endif # ESP32_SPIM
