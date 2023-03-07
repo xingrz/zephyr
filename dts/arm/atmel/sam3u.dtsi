@@ -60,6 +60,15 @@
 			status = "disabled";
 		};
 
+		usb: udphs@400a4000 {
+			compatible = "atmel,sam-udphs";
+			reg = <0x400a4000 0x360>;
+			interrupts = <29 0>;
+			peripheral-id = <29>;
+			num-bidir-endpoints = <7>;
+			status = "disabled";
+		};
+
 		uart: uart@400e0600 {
 			compatible = "atmel,sam-uart";
 			reg = <0x400e0600 0x124>;

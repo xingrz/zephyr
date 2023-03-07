@@ -73,6 +73,13 @@ config USB_DC_SAM0
 	help
 	  SAM0 family USB device controller Driver.
 
+config USB_DC_SAM_UDPHS
+	bool "SAM3U USB Device Controller driver"
+	default y
+	depends on DT_HAS_ATMEL_SAM_UDPHS_ENABLED
+	help
+	  SAM3U family USB device controller driver.
+
 config USB_DC_SAM_USBC
 	bool "SAM4L USBC Device Controller driver"
 	default y
