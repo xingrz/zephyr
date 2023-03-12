@@ -19,12 +19,36 @@ LOG_MODULE_REGISTER(usb_dc_sam_udphs, CONFIG_USB_DRIVER_LOG_LEVEL);
 
 #include <soc.h>
 
+#define SHIFT_DMA      24 /* Bits that should be shifted to access DMA control bits. */
+#define SHIFT_INTERUPT 8  /* Bits that should be shifted to access interrupt bits. */
+
+#define DMA_MAX_FIFO_SIZE 65536 /* Max size of the FMA FIFO */
+
+#define EPT_VIRTUAL_SIZE 16384
+
+enum usb_device_ep_state {
+	UDP_ENDPOINT_DISABLED,	/* Endpoint is disabled */
+	UDP_ENDPOINT_HALTED,	/* Endpoint is halted (i.e. STALLs every request) */
+	UDP_ENDPOINT_IDLE,	/* Endpoint is idle (i.e. ready for transmission) */
+	UDP_ENDPOINT_SENDING,	/* Endpoint is sending data */
+	UDP_ENDPOINT_RECEIVING, /* Endpoint is receiving data */
+};
+
+struct usb_device_transfer {
+	char *data;
+	volatile int buffered;
+	volatile int transferred;
+	volatile int remaining;
+};
+
 struct usb_device_ep_data {
-	uint8_t stalled;
+	volatile enum usb_device_ep_state state;
+	uint8_t bank;
 	uint16_t mps;
+	struct usb_device_transfer transfer;
+	uint8_t send_zlp;
 	usb_dc_ep_callback cb_in;
 	usb_dc_ep_callback cb_out;
-	uint8_t *fifo;
 };
 
 struct usb_device_data {
@@ -57,28 +81,181 @@ static void usb_dc_disable_clock(void)
 	PMC->CKGR_UCKR &= ~CKGR_UCKR_UPLLEN;
 }
 
-static void usb_dc_ep_fifo_reset(uint8_t ep_idx)
+static void usb_dc_end_of_transfer(uint8_t ep_idx)
 {
-	uint8_t *p = (uint8_t *)((uint32_t *)UDPHS_RAM_ADDR + ep_idx * (16 * 1024));
-	dev_data.ep_data[ep_idx].fifo = p;
+	struct usb_device_ep_data *ep = &dev_data.ep_data[ep_idx];
+	struct usb_device_transfer *transfer = &ep->transfer;
+
+	if (ep->state == UDP_ENDPOINT_RECEIVING || ep->state == UDP_ENDPOINT_SENDING) {
+		if (ep->state == UDP_ENDPOINT_SENDING) {
+			ep->send_zlp = 0;
+		}
+
+		ep->state = UDP_ENDPOINT_IDLE;
+	}
 }
 
-static uint8_t usb_dc_ep_fifo_get(uint8_t ep_idx)
+static void usb_dc_write_payload(uint8_t ep_idx)
 {
-	return *(dev_data.ep_data[ep_idx].fifo++);
+	struct usb_device_ep_data *ep = &dev_data.ep_data[ep_idx];
+	struct usb_device_transfer *transfer = &ep->transfer;
+
+	uint8_t *fifo = (uint8_t *)((uint32_t *)UDPHS_RAM_ADDR + EPT_VIRTUAL_SIZE * ep_idx);
+
+	int size = MIN(ep->mps, transfer->remaining);
+
+	transfer->buffered += size;
+	transfer->remaining -= size;
+
+	int count = 0;
+	while (size > 0) {
+		fifo[count] = *(transfer->data);
+		transfer->data++;
+		size--;
+		count++;
+	}
 }
 
-static void usb_dc_ep_fifo_put(uint8_t ep_idx, uint8_t data)
+static void usb_dc_read_payload(uint8_t ep_idx, int size)
 {
-	*(dev_data.ep_data[ep_idx].fifo++) = data;
+
+	struct usb_device_ep_data *ep = &dev_data.ep_data[ep_idx];
+	struct usb_device_transfer *transfer = &ep->transfer;
+
+	uint8_t *fifo = (uint8_t *)((uint32_t *)UDPHS_RAM_ADDR + EPT_VIRTUAL_SIZE * ep_idx);
+
+	if (size > transfer->remaining) {
+		transfer->buffered += size - transfer->remaining;
+		size = transfer->remaining;
+	}
+
+	transfer->remaining -= size;
+	transfer->transferred += size;
+
+	int count = 0;
+	while (size > 0) {
+		*transfer->data = fifo[count];
+		transfer->data++;
+		size--;
+		count++;
+	}
+}
+
+static void usb_dc_reset_endpoints(void)
+{
+	struct usb_device_ep_data *ep;
+	struct usb_device_transfer *transfer;
+
+	for (uint8_t ep_idx = 0; ep_idx < UDPHSEPT_NUMBER; ep_idx++) {
+		ep = &dev_data.ep_data[ep_idx];
+		transfer = &ep->transfer;
+
+		transfer->data = 0;
+		transfer->transferred = -1;
+		transfer->buffered = -1;
+		transfer->remaining = -1;
+
+		ep->bank = 0;
+		ep->state = UDP_ENDPOINT_DISABLED;
+		ep->send_zlp = 0;
+	}
+}
+
+static void usb_dc_disable_endpoints(void)
+{
+	for (uint8_t ep_idx = 1; ep_idx < UDPHSEPT_NUMBER; ep_idx++) {
+		usb_dc_end_of_transfer(ep_idx);
+		dev_data.ep_data[ep_idx].state = UDP_ENDPOINT_DISABLED;
+	}
 }
 
 static void usb_dc_ep_isr(uint8_t ep_idx)
 {
 	struct usb_device_ep_data *ep = &dev_data.ep_data[ep_idx];
-	uint32_t eptsta = UDPHS->UDPHS_EPT[ep_idx].UDPHS_EPTSTA;
+	struct usb_device_transfer *transfer = &ep->transfer;
 
+	uint32_t eptsta = UDPHS->UDPHS_EPT[ep_idx].UDPHS_EPTSTA;
 	LOG_DBG("ep_idx: %d, eptsta: %08x", ep_idx, eptsta);
+
+	/* IN packet sent */
+	if ((UDPHS->UDPHS_EPT[ep_idx].UDPHS_EPTCTL & UDPHS_EPTCTL_TXRDY) &&
+	    !(eptsta & UDPHS_EPTSTA_TXRDY)) {
+		LOG_DBG("ep_idx: %d, TXRDY", ep_idx);
+
+		if (ep->state == UDP_ENDPOINT_SENDING) {
+			if (transfer->buffered > 0) {
+				transfer->transferred += transfer->buffered;
+				transfer->buffered = 0;
+			}
+
+			if (transfer->buffered == 0 && transfer->transferred == 0 &&
+			    transfer->remaining == 0 && ep->send_zlp == 0) {
+				ep->send_zlp = 1;
+			}
+
+			if (transfer->remaining > 0 || ep->send_zlp == 1) {
+				ep->send_zlp = 2;
+
+				/* Send next packet */
+				usb_dc_write_payload(ep_idx);
+				UDPHS->UDPHS_EPT[ep_idx].UDPHS_EPTSETSTA = UDPHS_EPTSETSTA_TXRDY;
+			} else {
+				/* Disable interrupt if this is not a control endpoint */
+				if (!(UDPHS->UDPHS_EPT[ep_idx].UDPHS_EPTCFG &
+				      UDPHS_EPTCFG_EPT_TYPE_CTRL8)) {
+					UDPHS->UDPHS_IEN &= ~(BIT(ep_idx) << SHIFT_INTERUPT);
+				}
+
+				UDPHS->UDPHS_EPT[ep_idx].UDPHS_EPTCTLDIS = UDPHS_EPTCTLDIS_TXRDY;
+
+				usb_dc_end_of_transfer(ep_idx);
+				ep->send_zlp = 0;
+			}
+		}
+	}
+
+	/* OUT packet received */
+	if (eptsta & UDPHS_EPTSTA_RXRDY_TXKL) {
+		LOG_DBG("ep_idx: %d, RXRDY_TXKL", ep_idx);
+
+		if (ep->state == UDP_ENDPOINT_RECEIVING) {
+			/* Retrieve data and store it into the current transfer buffer */
+			uint32_t size = (eptsta & UDPHS_EPTSTA_BYTE_COUNT_Msk) >>
+					UDPHS_EPTSTA_BYTE_COUNT_Pos;
+			usb_dc_read_payload(ep_idx, size);
+
+			UDPHS->UDPHS_EPT[ep_idx].UDPHS_EPTCLRSTA = UDPHS_EPTCLRSTA_RXRDY_TXKL;
+
+			/* Check if the transfer is finished */
+			if (transfer->remaining == 0 || size < ep->mps) {
+				UDPHS->UDPHS_EPT[ep_idx].UDPHS_EPTCTLDIS =
+					UDPHS_EPTCTLDIS_RXRDY_TXKL;
+
+				/* Disable interrupt if this is not a control endpoint */
+				if (!(UDPHS->UDPHS_EPT[ep_idx].UDPHS_EPTCFG &
+				      UDPHS_EPTCFG_EPT_TYPE_CTRL8)) {
+					UDPHS->UDPHS_IEN &= ~(BIT(ep_idx) << SHIFT_INTERUPT);
+				}
+
+				usb_dc_end_of_transfer(ep_idx);
+			}
+		} else {
+		}
+	}
+
+	/* STALL sent */
+	if (eptsta & UDPHS_EPTSTA_STALL_SNT) {
+		LOG_DBG("ep_idx: %d, STALL", ep_idx);
+		UDPHS->UDPHS_EPT[ep_idx].UDPHS_EPTCLRSTA = UDPHS_EPTCLRSTA_STALL_SNT;
+	}
+
+	/* SETUP packet received */
+	if (eptsta & UDPHS_EPTSTA_RX_SETUP) {
+		LOG_DBG("ep_idx: %d, SETUP", ep_idx);
+		usb_dc_ep_fifo_reset(ep_idx);
+		UDPHS->UDPHS_EPT[ep_idx].UDPHS_EPTCLRSTA = UDPHS_EPTCLRSTA_RX_SETUP;
+		ep->cb_out(ep_idx | USB_EP_DIR_OUT, USB_DC_EP_SETUP);
+	}
 
 	/* Data Packet Sent Interrupt */
 	if (eptsta & UDPHS_EPTSTA_TX_COMPLT) {
@@ -87,28 +264,6 @@ static void usb_dc_ep_isr(uint8_t ep_idx)
 		usb_dc_ep_fifo_reset(ep_idx);
 		ep->cb_in(ep_idx | USB_EP_DIR_IN, USB_DC_EP_DATA_IN);
 	}
-
-	/* Data Packet Received Interrupt */
-	if (eptsta & UDPHS_EPTSTA_RXRDY_TXKL) {
-		LOG_DBG("ep_idx: %d, EP_DATA_OUT", ep_idx);
-		UDPHS->UDPHS_IEN &= ~(BIT(ep_idx) << 8); /* Disable EP int until read */
-		usb_dc_ep_fifo_reset(ep_idx);
-		ep->cb_out(ep_idx | USB_EP_DIR_OUT, USB_DC_EP_DATA_OUT);
-	}
-
-	/* STALL Packet Sent Interrupt */
-	if (eptsta & UDPHS_EPTSTA_STALL_SNT) {
-		LOG_DBG("ep_idx: %d, STALL_SNT", ep_idx);
-		UDPHS->UDPHS_EPT[ep_idx].UDPHS_EPTCLRSTA = UDPHS_EPTCLRSTA_STALL_SNT;
-	}
-
-	/* Setup Packet Received Interrupt */
-	if (eptsta & UDPHS_EPTSTA_RX_SETUP) {
-		LOG_DBG("ep_idx: %d, EP_SETUP", ep_idx);
-		UDPHS->UDPHS_IEN &= ~(BIT(ep_idx) << 8); /* Disable EP int until read */
-		usb_dc_ep_fifo_reset(ep_idx);
-		ep->cb_out(ep_idx | USB_EP_DIR_OUT, USB_DC_EP_SETUP);
-	}
 }
 
 static void usb_dc_isr(void)
@@ -116,58 +271,85 @@ static void usb_dc_isr(void)
 	irq_disable(DT_INST_IRQN(0));
 
 	uint32_t intsta = UDPHS->UDPHS_INTSTA & UDPHS->UDPHS_IEN;
-
 	LOG_DBG("intsta: %08x", intsta);
 
-	/* End of reset interrupt */
-	if (intsta & UDPHS_INTSTA_ENDRESET) {
-		LOG_DBG("RESET");
-		usb_dc_reset();
-		dev_data.status_cb(USB_DC_RESET, NULL);
-		UDPHS->UDPHS_CLRINT = UDPHS_CLRINT_ENDRESET;
-	}
-
-	/* Suspend interrupt */
-	if (intsta & UDPHS_INTSTA_DET_SUSPD) {
-		LOG_DBG("SUSPEND");
-		UDPHS->UDPHS_IEN &= ~UDPHS_IEN_DET_SUSPD;
-		UDPHS->UDPHS_IEN |= UDPHS_IEN_WAKE_UP;
-		dev_data.status_cb(USB_DC_SUSPEND, NULL);
-		UDPHS->UDPHS_CLRINT = UDPHS_CLRINT_DET_SUSPD;
-	}
-
-	/* End of resume interrupt */
-	if (intsta & UDPHS_INTSTA_WAKE_UP) {
-		LOG_DBG("RESUME");
-		UDPHS->UDPHS_IEN &= ~UDPHS_IEN_WAKE_UP;
-		UDPHS->UDPHS_IEN |= UDPHS_IEN_DET_SUSPD;
-		dev_data.status_cb(USB_DC_RESUME, NULL);
-		UDPHS->UDPHS_CLRINT = UDPHS_CLRINT_WAKE_UP;
-	}
-
-	/* Remote Wakeup Interrupt */
-	if (intsta & UDPHS_INTSTA_UPSTR_RES) {
-		LOG_DBG("WAKEUP");
-		UDPHS->UDPHS_CLRINT = UDPHS_INTSTA_UPSTR_RES;
-	}
-
+	while (intsta != 0) {
 #ifdef CONFIG_USB_DEVICE_SOF
-	/* SOF interrupt */
-	if (intsta & UDPHS_INTSTA_INT_SOF) {
-		dev_data.status_cb(USB_DC_SOF, NULL);
-		UDPHS->UDPHS_CLRINT = UDPHS_CLRINT_INT_SOF;
-	}
-	if (intsta & UDPHS_INTSTA_MICRO_SOF) {
-		dev_data.status_cb(USB_DC_SOF, NULL);
-		UDPHS->UDPHS_CLRINT = UDPHS_CLRINT_MICRO_SOF;
-	}
+		/* tart Of Frame (SOF) */
+		if (intsta & UDPHS_INTSTA_INT_SOF) {
+			dev_data.status_cb(USB_DC_SOF, NULL);
+			UDPHS->UDPHS_CLRINT = UDPHS_CLRINT_INT_SOF;
+			intsta &= ~UDPHS_INTSTA_INT_SOF;
+		}
+
+		if (intsta & UDPHS_INTSTA_MICRO_SOF) {
+			dev_data.status_cb(USB_DC_SOF, NULL);
+			UDPHS->UDPHS_CLRINT = UDPHS_CLRINT_MICRO_SOF;
+			intsta &= ~UDPHS_INTSTA_MICRO_SOF;
+		}
 #endif // CONFIG_USB_DEVICE_SOF
 
-	/* Endpoints interrupt */
-	for (uint32_t ep_idx = 0; ep_idx < UDPHSEPT_NUMBER; ep_idx++) {
-		if (intsta & (BIT(ep_idx) << 8)) {
-			usb_dc_ep_isr(ep_idx);
+		/* Suspend */
+		/* This interrupt is always treated last (hence the '==') */
+		if (intsta == UDPHS_INTSTA_DET_SUSPD) {
+			LOG_DBG("SUSPEND");
+
+			/* Enable wakeup */
+			UDPHS->UDPHS_IEN |= UDPHS_IEN_WAKE_UP | UDPHS_IEN_ENDOFRSM;
+			UDPHS->UDPHS_IEN &= ~UDPHS_IEN_DET_SUSPD;
+
+			UDPHS->UDPHS_CLRINT = UDPHS_CLRINT_DET_SUSPD | UDPHS_CLRINT_WAKE_UP;
+
+			dev_data.status_cb(USB_DC_SUSPEND, NULL);
 		}
+
+		/* Resume */
+		else if ((intsta & UDPHS_INTSTA_WAKE_UP) || (intsta & UDPHS_INTSTA_ENDOFRSM)) {
+			LOG_DBG("RESUME");
+
+			dev_data.status_cb(USB_DC_RESUME, NULL);
+
+			UDPHS->UDPHS_CLRINT = UDPHS_CLRINT_WAKE_UP | UDPHS_CLRINT_ENDOFRSM |
+					      UDPHS_CLRINT_DET_SUSPD;
+
+			UDPHS->UDPHS_IEN |= UDPHS_IEN_ENDOFRSM | UDPHS_IEN_DET_SUSPD;
+			UDPHS->UDPHS_CLRINT = UDPHS_CLRINT_WAKE_UP | UDPHS_CLRINT_ENDOFRSM;
+			UDPHS->UDPHS_IEN &= ~UDPHS_IEN_WAKE_UP;
+		}
+
+		/* End of bus reset */
+		else if (intsta & UDPHS_INTSTA_ENDRESET) {
+			LOG_DBG("RESET");
+
+			usb_dc_reset();
+
+			/* Flush and enable the Suspend interrupt */
+			UDPHS->UDPHS_CLRINT = UDPHS_CLRINT_WAKE_UP | UDPHS_CLRINT_DET_SUSPD;
+
+			dev_data.status_cb(USB_DC_RESET, NULL);
+
+			UDPHS->UDPHS_CLRINT = UDPHS_CLRINT_ENDRESET;
+			UDPHS->UDPHS_IEN |= UDPHS_IEN_DET_SUSPD;
+		}
+
+		/* Handle upstream resume interrupt */
+		else if (intsta & UDPHS_INTSTA_UPSTR_RES) {
+			LOG_DBG("WAKEUP");
+			UDPHS->UDPHS_CLRINT = UDPHS_INTSTA_UPSTR_RES;
+		}
+
+		/* Endpoint interrupt */
+		else {
+			for (uint32_t ep_idx = 0; ep_idx < UDPHSEPT_NUMBER; ep_idx++) {
+				if (intsta & (BIT(ep_idx) << 8)) {
+					usb_dc_ep_isr(ep_idx);
+				}
+			}
+		}
+
+		/* Retrieve new interrupt status */
+		intsta = UDPHS->UDPHS_INTSTA & UDPHS->UDPHS_IEN;
+		LOG_DBG("intsta: %08x", intsta);
 	}
 
 	irq_enable(DT_INST_IRQN(0));
