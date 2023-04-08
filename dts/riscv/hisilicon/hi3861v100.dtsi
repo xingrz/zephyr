@@ -1,0 +1,79 @@
+/*
+ * Copyright (c) 2023 Chen Xingyu <hi@xingrz.me>
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+#include <mem.h>
+#include <freq.h>
+
+/ {
+	cpus {
+		#address-cells = <1>;
+		#size-cells = <0>;
+
+		cpu0: cpu@0 {
+			compatible = "hisilicon,riscv";
+			reg = <0>;
+			clock-frequency = <DT_FREQ_M(160)>;
+			i-cache-line-size = <32>;
+			d-cache-line-size = <4>;
+
+			intc: interrupt-controller {
+				compatible = "riscv,cpu-intc";
+				interrupt-controller;
+				#address-cells = <1>;
+				#interrupt-cells = <1>;
+			};
+		};
+	};
+
+	tcxo: oscillator {
+		compatible = "fixed-clock";
+		clock-frequency = <DT_FREQ_M(24)>;
+		#clock-cells = <0>;
+	};
+
+	soc {
+		compatible = "simple-bus";
+		interrupt-parent = <&intc>;
+		#address-cells = <1>;
+		#size-cells = <1>;
+		ranges;
+
+		sram: memory@d8000 {
+			compatible = "mmio-sram";
+			reg = <0x000d8000 0x46000>;
+		};
+
+		systick: timer@40050000 {
+			compatible = "hisilicon,hi3861-timer";
+			reg = <0x40050000 0x100>;
+			clocks = <&tcxo>;
+			interrupts = <7>;
+		};
+
+		sfc: flash-controller@40800000 {
+			compatible = "hisilicon,hi3861-flash-controller";
+			reg = <0x40800000 0x400000>;
+
+			#address-cells = <1>;
+			#size-cells = <1>;
+
+			flash: flash@400000 {
+				compatible = "soc-nv-flash";
+				reg = <0x400000 0x200000>;
+				write-block-size = <16>;
+				erase-block-size = <512>;
+			};
+		};
+
+		gpio: gpio@50006000 {
+			compatible = "snps,designware-gpio";
+			reg = <0x50006000 0x80>;
+			interrupts = <45>;
+			gpio-controller;
+			#gpio-cells = <2>;
+			ngpios = <15>;
+		};
+	};
+};

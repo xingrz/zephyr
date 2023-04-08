@@ -1,0 +1,31 @@
+# Copyright (c) 2023 Chen Xingyu <hi@xingrz.me>
+# SPDX-License-Identifier: Apache-2.0
+
+if SOC_SERIES_HI3861
+
+config SOC_SERIES
+	default "hi3861"
+
+config SYS_CLOCK_HW_CYCLES_PER_SEC
+	default 24000000
+
+config RISCV_SOC_INTERRUPT_INIT
+	default y
+
+config RISCV_HAS_CPU_IDLE
+	default y
+
+config RISCV_GP
+	default y
+
+config NUM_IRQS
+	int
+	default 62
+
+config FLASH_LOAD_OFFSET
+	default 0x2000
+	help
+	  The offset from the start of flash where the image is loaded.
+	  At least 8KB should be reserved for the bootloader.
+
+endif # SOC_SERIES_HI3861
