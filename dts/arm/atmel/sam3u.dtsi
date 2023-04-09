@@ -28,6 +28,18 @@
 	};
 
 	soc {
+		spi: spi@40008000 {
+			compatible = "atmel,sam-spi";
+			reg = <0x40008000 0x4000>;
+			interrupts = <20 0>;
+			clocks = <&pmc PMC_TYPE_PERIPHERAL 20>;
+
+			#address-cells = <1>;
+			#size-cells = <0>;
+
+			status = "disabled";
+		};
+
 		pmc: pmc@400e0400 {
 			compatible = "atmel,sam-pmc";
 			reg = <0x400e0400 0x200>;
