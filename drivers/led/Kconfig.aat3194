@@ -1,0 +1,15 @@
+# Copyright (c) 2023 Chen Xingyu <hi@xingrz.me>
+# SPDX-License-Identifier: Apache-2.0
+
+config AAT3194
+	bool "Skyworks AAT3194 LED driver"
+	default y
+	depends on DT_HAS_SKYWORKS_AAT3194_ENABLED
+	help
+	  Enable driver for Skyworks AAT3194 LED driver.
+
+	  AAT3194 is an LED driving IC with 32 brightness ramping steps that
+	  utilizes a simple single-wire control protocol.
+
+	  This driver can also be used with other similar LED driving ICs, such
+	  as AWINIC AW9364.

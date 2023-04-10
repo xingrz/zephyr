@@ -1,0 +1,23 @@
+# Copyright (c) 2023 Chen Xingyu <hi@xingrz.me>
+# SPDX-License-Identifier: Apache-2.0
+
+description: Skyworks AAT3194 LED driver
+
+compatible: "skyworks,aat3194"
+
+include: base.yaml
+
+properties:
+  output-gpios:
+    type: phandle-array
+    required: true
+
+  steps:
+    type: int
+    default: 32
+    description: Number of steps in the LED brightness ramp.
+
+  decreasing:
+    type: boolean
+    description: |
+      If enabled the LED brightness ramp is decreasing. Increasing else.
