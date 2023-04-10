@@ -17,6 +17,7 @@
 		led1 = &usr_led2;
 		sw0 = &bp_left;
 		sw1 = &bp_right;
+		lcd-backlight = &lcd_backlight;
 	};
 
 	chosen {
@@ -52,6 +53,11 @@
 			gpios = <&pioa 19 GPIO_ACTIVE_LOW>;
 			label = "BP_RIGHT";
 		};
+	};
+
+	lcd_backlight: aat3194 {
+		compatible = "skyworks,aat3194";
+		output-gpios = <&pioc 19 0>;
 	};
 };
 
