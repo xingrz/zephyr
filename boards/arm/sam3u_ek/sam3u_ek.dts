@@ -25,6 +25,7 @@
 		zephyr,shell-uart = &uart;
 		zephyr,sram = &sram0;
 		zephyr,flash = &flash0;
+		zephyr,keyboard-scan = &kscan;
 	};
 
 	leds {
@@ -79,4 +80,28 @@
 
 	pinctrl-0 = <&uart_default>;
 	pinctrl-names = "default";
+};
+
+&spi {
+	status = "okay";
+
+	pinctrl-0 = <&spi_default>;
+	pinctrl-names = "default";
+
+	cs-gpios = <&pioc 14 GPIO_ACTIVE_LOW>;
+
+	kscan: ads7843@0 {
+		compatible = "xptek,xpt2046";
+
+		reg = <0>;
+		spi-max-frequency = <DT_FREQ_K(100)>;
+
+		int-gpios = <&pioa 24 GPIO_ACTIVE_LOW>;
+		touchscreen-size-x = <240>;
+		touchscreen-size-y = <320>;
+		min-x = <0>;
+		min-y = <0>;
+		max-x = <4095>;
+		max-y = <4095>;
+	};
 };

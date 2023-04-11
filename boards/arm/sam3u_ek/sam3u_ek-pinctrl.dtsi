@@ -15,4 +15,20 @@
 			pinmux = <PA12A_UART_UTXD>;
 		};
 	};
+
+	spi_default: spi_default {
+		group1 {
+			pinmux = <PA13A_SPI_MISO>;
+			bias-pull-up;
+		};
+		group2 {
+			pinmux = <PA14A_SPI_MOSI>;
+		};
+		group3 {
+			pinmux = <PA15A_SPI_SPCK>;
+		};
+		group4 {
+			pinmux = <PC14B_SPI_NPCS2>;
+		};
+	};
 };
