@@ -51,11 +51,6 @@
 			reg = <0x000d8000 0x46000>;
 		};
 
-		flash: flash@400000 {
-			compatible = "soc-nv-flash";
-			reg = <0x400000 0x200000>;
-		};
-
 		uart0: uart@40008000 {
 			compatible = "arm,pl011";
 			reg = <0x40008000 0x5c>;
@@ -83,6 +78,12 @@
 			status = "disabled";
 		};
 
+		cldo_ctl: cldo-controller@40010000 {
+			compatible = "syscon";
+			reg = <0x40010000 0x1000>;
+			reg-io-width = <4>;
+		};
+
 		systick: timer@40050000 {
 			compatible = "hisilicon,hi3861-timer";
 			reg = <0x40050000 0x100>;
@@ -91,9 +92,28 @@
 			interrupt-names = "MACHINE_TIMER_IRQ";
 		};
 
+		sfc: flash-controller@40800000 {
+			compatible = "hisilicon,hi3861-flash-controller";
+			reg = <0x40800000 0x400000>;
+
+			#address-cells = <1>;
+			#size-cells = <1>;
+
+			flash: flash@400000 {
+				compatible = "soc-nv-flash";
+				reg = <0x400000 0x200000>;
+			};
+		};
+
 		glb_ctl: global-controller@50000000 {
 			compatible = "syscon";
 			reg = <0x50000000 0x1000>;
+			reg-io-width = <4>;
+		};
+
+		pmu_cmu_ctl: pmu-cmu-controller@50002000 {
+			compatible = "syscon";
+			reg = <0x50002000 0x1000>;
 			reg-io-width = <4>;
 		};
 

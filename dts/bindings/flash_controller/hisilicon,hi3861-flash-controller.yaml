@@ -1,0 +1,8 @@
+# Copyright (c) 2023 Chen Xingyu <hi@xingrz.me>
+# SPDX-License-Identifier: Apache-2.0
+
+description: Hi3861 SPI Flash Controller (SFC)
+
+compatible: "hisilicon,hi3861-flash-controller"
+
+include: flash-controller.yaml
