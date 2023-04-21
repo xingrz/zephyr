@@ -76,6 +76,7 @@ zephyr_library_sources_ifdef(CONFIG_GPIO_RT1718S    gpio_rt1718s.c)
 zephyr_library_sources_ifdef(CONFIG_GPIO_RT1718S    gpio_rt1718s_port.c)
 zephyr_library_sources_ifdef(CONFIG_GPIO_NUMICRO    gpio_numicro.c)
 zephyr_library_sources_ifdef(CONFIG_GPIO_HOGS       gpio_hogs.c)
+zephyr_library_sources_ifdef(CONFIG_GPIO_HI3861     gpio_hi3861.c)
 
 if(CONFIG_GPIO_SC18IM704)
   zephyr_library_include_directories(${ZEPHYR_BASE}/drivers)
