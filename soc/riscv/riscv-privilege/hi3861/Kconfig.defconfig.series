@@ -22,10 +22,8 @@ config NUM_IRQS
 	int
 	default 62
 
+# 8KB is reserved for the bootloader
 config FLASH_LOAD_OFFSET
 	default 0x2000
-	help
-	  The offset from the start of flash where the image is loaded.
-	  At least 8KB should be reserved for the bootloader.
 
 endif # SOC_SERIES_HI3861
