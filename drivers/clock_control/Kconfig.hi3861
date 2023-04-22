@@ -1,0 +1,9 @@
+# Copyright (c) 2023 Chen Xingyu <hi@xingrz.me>
+# SPDX-License-Identifier: Apache-2.0
+
+config CLOCK_CONTROL_HI3861
+	bool "Hi3861 clock controller"
+	default y
+	depends on DT_HAS_HISILICON_HI3861_CLDO_ENABLED
+	help
+	  Enable clock controller driver for Hi3861.

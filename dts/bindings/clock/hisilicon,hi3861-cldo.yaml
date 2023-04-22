@@ -1,0 +1,22 @@
+# Copyright (c) 2023 Chen Xingyu <hi@xingrz.me>
+# SPDX-License-Identifier: Apache-2.0
+
+description: Hi3861 clock controller
+
+compatible: "hisilicon,hi3861-cldo"
+
+include: [clock-controller.yaml, base.yaml]
+
+properties:
+  reg:
+    required: true
+
+  clocks:
+    required: true
+
+  "#clock-cells":
+    const: 2
+
+clock-cells:
+  - clock-reg
+  - freq-sel

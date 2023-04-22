@@ -83,6 +83,13 @@
 			status = "disabled";
 		};
 
+		cldo: clock-controller@40010000 {
+			compatible = "hisilicon,hi3861-cldo";
+			reg = <0x40010000 0x4000>;
+			clocks = <&tcxo>;
+			#clock-cells = <2>;
+		};
+
 		systick: timer@40050000 {
 			compatible = "hisilicon,hi3861-timer";
 			reg = <0x40050000 0x100>;
