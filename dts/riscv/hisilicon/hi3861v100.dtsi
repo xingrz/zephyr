@@ -33,6 +33,12 @@
 		#clock-cells = <0>;
 	};
 
+	uartclk: uart-clock {
+		compatible = "fixed-clock";
+		clock-frequency = <DT_FREQ_M(80)>;
+		#clock-cells = <0>;
+	};
+
 	soc {
 		compatible = "simple-bus";
 		interrupt-parent = <&intc>;
@@ -43,6 +49,30 @@
 		sram: memory@d8000 {
 			compatible = "mmio-sram";
 			reg = <0x000d8000 0x46000>;
+		};
+
+		uart0: uart@40008000 {
+			compatible = "arm,pl011";
+			reg = <0x40008000 0x5c>;
+			clocks = <&uartclk>;
+			interrupts = <38>;
+			status = "disabled";
+		};
+
+		uart1: uart@40009000 {
+			compatible = "arm,pl011";
+			reg = <0x40009000 0x5c>;
+			clocks = <&uartclk>;
+			interrupts = <39>;
+			status = "disabled";
+		};
+
+		uart2: uart@4000a000 {
+			compatible = "arm,pl011";
+			reg = <0x4000a000 0x5c>;
+			clocks = <&uartclk>;
+			interrupts = <40>;
+			status = "disabled";
 		};
 
 		systick: timer@40050000 {
