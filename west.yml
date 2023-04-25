@@ -79,6 +79,12 @@ manifest:
       path: modules/hal/gigadevice
       groups:
         - hal
+    - name: hal_hisilicon
+      url: https://github.com/xingrz/hal_hisilicon
+      revision: master
+      path: modules/hal/hisilicon
+      groups:
+        - hal
     - name: hal_infineon
       revision: 03d6f5563552022fb53f149640b127889fb3c01f
       path: modules/hal/infineon
