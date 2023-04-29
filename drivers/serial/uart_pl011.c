@@ -208,7 +208,9 @@ static int pl011_set_baudrate(const struct device *dev,
 	get_uart(dev)->ibrd = bauddiv >> PL011_FBRD_WIDTH;
 	get_uart(dev)->fbrd = bauddiv & ((1u << PL011_FBRD_WIDTH) - 1u);
 
+#if defined(CONFIG_ARM) || defined(CONFIG_ARM64)
 	__DMB();
+#endif
 
 	/* In order to internally update the contents of ibrd or fbrd, a
 	 * lcr_h write must always be performed at the end
@@ -427,10 +429,14 @@ static int pl011_init(const struct device *dev)
 
 	if (!data->sbsa) {
 		get_uart(dev)->dmacr = 0U;
+#if defined(CONFIG_ARM) || defined(CONFIG_ARM64)
 		__ISB();
+#endif
 		get_uart(dev)->cr &= ~(BIT(14) | BIT(15) | BIT(1));
 		get_uart(dev)->cr |= PL011_CR_RXE | PL011_CR_TXE;
+#if defined(CONFIG_ARM) || defined(CONFIG_ARM64)
 		__ISB();
+#endif
 	}
 #ifdef CONFIG_UART_INTERRUPT_DRIVEN
 	config->irq_config_func(dev);
