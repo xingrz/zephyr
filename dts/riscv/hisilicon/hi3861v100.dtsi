@@ -39,6 +39,12 @@
 		#clock-cells = <0>;
 	};
 
+	pwmclk: pwm-clock {
+		compatible = "fixed-clock";
+		clock-frequency = <DT_FREQ_M(160)>;
+		#clock-cells = <0>;
+	};
+
 	soc {
 		compatible = "simple-bus";
 		interrupt-parent = <&intc>;
@@ -72,6 +78,60 @@
 			reg = <0x4000a000 0x5c>;
 			clocks = <&uartclk>;
 			interrupts = <40>;
+			status = "disabled";
+		};
+
+		pwm0: pwm@40040000 {
+			compatible = "hisilicon,hi3861-pwm";
+			reg = <0x40040000 0x100>;
+			clocks = <&pwmclk>;
+			pwm-controller;
+			#pwm-cells = <2>;
+			status = "disabled";
+		};
+
+		pwm1: pwm@40041000 {
+			compatible = "hisilicon,hi3861-pwm";
+			reg = <0x40041000 0x100>;
+			clocks = <&pwmclk>;
+			pwm-controller;
+			#pwm-cells = <2>;
+			status = "disabled";
+		};
+
+		pwm2: pwm@40042000 {
+			compatible = "hisilicon,hi3861-pwm";
+			reg = <0x40042000 0x100>;
+			clocks = <&pwmclk>;
+			pwm-controller;
+			#pwm-cells = <2>;
+			status = "disabled";
+		};
+
+		pwm3: pwm@40043000 {
+			compatible = "hisilicon,hi3861-pwm";
+			reg = <0x40043000 0x100>;
+			clocks = <&pwmclk>;
+			pwm-controller;
+			#pwm-cells = <2>;
+			status = "disabled";
+		};
+
+		pwm4: pwm@40044000 {
+			compatible = "hisilicon,hi3861-pwm";
+			reg = <0x40044000 0x100>;
+			clocks = <&pwmclk>;
+			pwm-controller;
+			#pwm-cells = <2>;
+			status = "disabled";
+		};
+
+		pwm5: pwm@40045000 {
+			compatible = "hisilicon,hi3861-pwm";
+			reg = <0x40045000 0x100>;
+			clocks = <&pwmclk>;
+			pwm-controller;
+			#pwm-cells = <2>;
 			status = "disabled";
 		};
 
