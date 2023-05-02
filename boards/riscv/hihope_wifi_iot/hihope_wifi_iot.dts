@@ -7,6 +7,8 @@
 
 #include <hisilicon/hi3861v100.dtsi>
 #include <zephyr/dt-bindings/gpio/gpio.h>
+#include <zephyr/dt-bindings/pwm/pwm.h>
+#include <zephyr/dt-bindings/clock/hi3861-clocks.h>
 
 #include "hihope_wifi_iot-pinctrl.dtsi"
 
@@ -17,6 +19,7 @@
 	aliases {
 		led0 = &led_1;
 		sw0 = &sw_2;
+		pwm-led0 = &pwm_led_1;
 	};
 
 	chosen {
@@ -32,6 +35,15 @@
 		led_1: led_1 {
 			gpios = <&gpio 9 GPIO_ACTIVE_LOW>;
 			label = "LED1";
+		};
+	};
+
+	pwm_leds {
+		compatible = "pwm-leds";
+
+		pwm_led_1: pwm_led_1 {
+			label = "PWM_LED1";
+			pwms = <&pwm0 0 160000000>;
 		};
 	};
 
@@ -51,4 +63,12 @@
 
 	pinctrl-0 = <&uart0_default>;
 	pinctrl-names = "default";
+};
+
+&pwm0 {
+	status = "okay";
+	clocks = <&cldo HI3861_CLOCK_PWM0 HI3861_FREQ_PWM_160M>;
+	pinctrl-0 = <&pwm0_default>;
+	pinctrl-names = "default";
+	prescaler = <10>;
 };

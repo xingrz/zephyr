@@ -12,4 +12,10 @@
 				 <GPIO_04_UART0_RXD>;
 		};
 	};
+
+	pwm0_default: pwm0_default {
+		group1 {
+			pinmux = <GPIO_09_PWM0_OUT>;
+		};
+	};
 };
