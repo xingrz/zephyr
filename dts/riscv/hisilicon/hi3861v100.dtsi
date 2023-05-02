@@ -90,6 +90,54 @@
 			#clock-cells = <2>;
 		};
 
+		pwm0: pwm@40040000 {
+			compatible = "hisilicon,hi3861-pwm";
+			reg = <0x40040000 0x100>;
+			pwm-controller;
+			#pwm-cells = <2>;
+			status = "disabled";
+		};
+
+		pwm1: pwm@40041000 {
+			compatible = "hisilicon,hi3861-pwm";
+			reg = <0x40041000 0x100>;
+			pwm-controller;
+			#pwm-cells = <2>;
+			status = "disabled";
+		};
+
+		pwm2: pwm@40042000 {
+			compatible = "hisilicon,hi3861-pwm";
+			reg = <0x40042000 0x100>;
+			pwm-controller;
+			#pwm-cells = <2>;
+			status = "disabled";
+		};
+
+		pwm3: pwm@40043000 {
+			compatible = "hisilicon,hi3861-pwm";
+			reg = <0x40043000 0x100>;
+			pwm-controller;
+			#pwm-cells = <2>;
+			status = "disabled";
+		};
+
+		pwm4: pwm@40044000 {
+			compatible = "hisilicon,hi3861-pwm";
+			reg = <0x40044000 0x100>;
+			pwm-controller;
+			#pwm-cells = <2>;
+			status = "disabled";
+		};
+
+		pwm5: pwm@40045000 {
+			compatible = "hisilicon,hi3861-pwm";
+			reg = <0x40045000 0x100>;
+			pwm-controller;
+			#pwm-cells = <2>;
+			status = "disabled";
+		};
+
 		systick: timer@40050000 {
 			compatible = "hisilicon,hi3861-timer";
 			reg = <0x40050000 0x100>;
