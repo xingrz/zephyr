@@ -1,0 +1,38 @@
+/*
+ * Copyright (c) 2023 Chen Xingyu <hi@xingrz.me>
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+#include <zephyr/dt-bindings/pwm/pwm.h>
+#include <zephyr/dt-bindings/pinctrl/hi3861-pinctrl.h>
+
+/ {
+	aliases {
+		pwm-led0 = &pwm_led_1;
+	};
+
+	pwm_leds {
+		compatible = "pwm-leds";
+
+		pwm_led_1: pwm_led_1 {
+			label = "PWM_LED1";
+			pwms = <&pwm0 0 PWM_MSEC(20)>;
+		};
+	};
+
+};
+
+&pinctrl {
+	pwm0_default: pwm0_default {
+		group1 {
+			pinmux = <GPIO_09_PWM0_OUT>;
+		};
+	};
+};
+
+&pwm0 {
+	status = "okay";
+	pinctrl-0 = <&pwm0_default>;
+	pinctrl-names = "default";
+	prescaler = <25>;
+};
