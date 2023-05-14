@@ -26,4 +26,9 @@ config NUM_IRQS
 config FLASH_LOAD_OFFSET
 	default 0x1000
 
+# Since some timing settings are done in the flash driver, enable it to boost
+# XIP performance.
+config FLASH
+	default y
+
 endif # SOC_SERIES_HI3861
