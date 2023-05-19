@@ -1,0 +1,10 @@
+# Copyright (c) 2023 Chen Xingyu <hi@xingrz.me>
+# SPDX-License-Identifier: Apache-2.0
+
+config SOC_SERIES_AIR105
+	bool "Luat Air105 SoC"
+	select ARM
+	select CPU_CORTEX_M4
+	select SOC_FAMILY_LUAT
+	help
+	  Enable support for Luat Air105 SoC.
