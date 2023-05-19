@@ -1,0 +1,15 @@
+# Copyright (c) 2023 Chen Xingyu <hi@xingrz.me>
+# SPDX-License-Identifier: Apache-2.0
+
+config SOC_FAMILY_LUAT
+	bool
+
+if SOC_FAMILY_LUAT
+
+config SOC_FAMILY
+	string
+	default "luat"
+
+source "soc/arm/luat/*/Kconfig.soc"
+
+endif # SOC_FAMILY_LUAT
