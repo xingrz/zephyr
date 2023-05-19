@@ -1,0 +1,6 @@
+# Copyright (c) 2023 Chen Xingyu <hi@xingrz.me>
+# SPDX-License-Identifier: Apache-2.0
+
+config BOARD_LUAT_CORE_AIR101
+	bool "Luat CORE-Air101"
+	depends on SOC_AIR101
