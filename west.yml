@@ -84,6 +84,12 @@ manifest:
       path: modules/hal/infineon
       groups:
         - hal
+    - name: hal_luat
+      url: https://github.com/xingrz/hal_luat
+      revision: master
+      path: modules/hal/luat
+      groups:
+        - hal
     - name: hal_microchip
       revision: 5d079f1683a00b801373bbbbf5d181d4e33b30d5
       path: modules/hal/microchip
