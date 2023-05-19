@@ -1,0 +1,16 @@
+# Copyright (c) 2023 Chen Xingyu <hi@xingrz.me>
+# SPDX-License-Identifier: Apache-2.0
+
+if SOC_SERIES_AIR101
+
+config SOC_SERIES
+	default "air101"
+
+config NUM_IRQS
+	default 52
+
+# Reserved for the bootloader
+config FLASH_LOAD_OFFSET
+	default 0x1000
+
+endif # SOC_SERIES_AIR101

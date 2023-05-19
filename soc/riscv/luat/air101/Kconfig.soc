@@ -1,0 +1,11 @@
+# Copyright (c) 2023 Chen Xingyu <hi@xingrz.me>
+# SPDX-License-Identifier: Apache-2.0
+
+choice
+	prompt "Luat Air101"
+	depends on SOC_SERIES_AIR101
+
+config SOC_AIR101
+	bool "Luat Air101"
+
+endchoice
