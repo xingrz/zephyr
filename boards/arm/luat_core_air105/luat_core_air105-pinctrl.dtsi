@@ -1,0 +1,15 @@
+/*
+ * Copyright (c) 2023 Chen Xingyu <hi@xingrz.me>
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+#include <zephyr/dt-bindings/pinctrl/air105-pinctrl.h>
+
+&pinctrl {
+	uart0_default: uart0_default {
+		group1 {
+			pinmux = <PA0_ALT0_UART0_RX>,
+				 <PA1_ALT0_UART0_TX>;
+		};
+	};
+};

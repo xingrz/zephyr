@@ -1,0 +1,10 @@
+# Copyright (c) 2023 Chen Xingyu <hi@xingrz.me>
+# SPDX-License-Identifier: Apache-2.0
+
+identifier: luat_core_air105
+name: Luat CORE-Air105
+type: mcu
+arch: arm
+toolchain:
+  - zephyr
+  - gnuarmemb

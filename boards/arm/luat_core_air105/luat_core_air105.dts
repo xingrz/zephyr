@@ -1,0 +1,70 @@
+/*
+ * Copyright (c) 2023 Chen Xingyu <hi@xingrz.me>
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+/dts-v1/;
+#include <arm/luat/air105.dtsi>
+#include <zephyr/dt-bindings/gpio/gpio.h>
+
+#include "luat_core_air105-pinctrl.dtsi"
+
+/ {
+	model = "Luat CORE-Air105";
+	compatible = "luat,core-air105";
+
+	chosen {
+		zephyr,console = &uart0;
+		zephyr,shell-uart = &uart0;
+	};
+
+	aliases {
+		led0 = &led_3;
+		sw0 = &sw_2;
+	};
+
+	leds {
+		compatible = "gpio-leds";
+
+		led_3: led_3 {
+			gpios = <&gpiod 14 GPIO_ACTIVE_HIGH>;
+			label = "LED_3";
+		};
+
+		led_4: led_4 {
+			gpios = <&gpiod 15 GPIO_ACTIVE_HIGH>;
+			label = "LED_4";
+		};
+
+		led_5: led_5 {
+			gpios = <&gpioc 3 GPIO_ACTIVE_HIGH>;
+			label = "LED_5";
+		};
+	};
+
+	buttons {
+		compatible = "gpio-keys";
+
+		sw_2: sw_2 {
+			gpios = <&gpioa 10 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
+			label = "BOOT";
+		};
+	};
+};
+
+&cpu0 {
+	clock-frequency = <DT_FREQ_M(168)>;
+};
+
+&sysctrl {
+	clock-source = "xtal12m";
+	pll-divider = <0>;
+};
+
+&uart0 {
+	status = "okay";
+	current-speed = <115200>;
+
+	pinctrl-0 = <&uart0_default>;
+	pinctrl-names = "default";
+};
