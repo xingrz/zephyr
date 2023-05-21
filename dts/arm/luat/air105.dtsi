@@ -43,6 +43,54 @@
 			reg = <0x4001d000 0x1000>;
 			#address-cells = <1>;
 			#size-cells = <1>;
+
+			gpioa: gpio@4001d000 {
+				compatible = "luat,air105-gpio";
+				gpio-controller;
+				#gpio-cells = <2>;
+				reg = <0x4001d000 0x10>;
+				interrupts = <EXTI0_IRQ 0>;
+			};
+
+			gpiob: gpio@4001d010 {
+				compatible = "luat,air105-gpio";
+				gpio-controller;
+				#gpio-cells = <2>;
+				reg = <0x4001d010 0x10>;
+				interrupts = <EXTI1_IRQ 0>;
+			};
+
+			gpioc: gpio@4001d020 {
+				compatible = "luat,air105-gpio";
+				gpio-controller;
+				#gpio-cells = <2>;
+				reg = <0x4001d020 0x10>;
+				interrupts = <EXTI2_IRQ 0>;
+			};
+
+			gpiod: gpio@4001d030 {
+				compatible = "luat,air105-gpio";
+				gpio-controller;
+				#gpio-cells = <2>;
+				reg = <0x4001d030 0x10>;
+				interrupts = <EXTI3_IRQ 0>;
+			};
+
+			gpioe: gpio@4001d040 {
+				compatible = "luat,air105-gpio";
+				gpio-controller;
+				#gpio-cells = <2>;
+				reg = <0x4001d040 0x10>;
+				interrupts = <EXTI4_IRQ 0>;
+			};
+
+			gpiof: gpio@4001d050 {
+				compatible = "luat,air105-gpio";
+				gpio-controller;
+				#gpio-cells = <2>;
+				reg = <0x4001d050 0x10>;
+				interrupts = <EXTI5_IRQ 0>;
+			};
 		};
 
 		sysctrl: clock-controller@4001f000 {

@@ -1,0 +1,9 @@
+# Copyright (c) 2023 Chen Xingyu <hi@xingrz.me>
+# SPDX-License-Identifier: Apache-2.0
+
+config GPIO_AIR105
+	bool "GPIO driver for Luat Air105"
+	default y
+	depends on DT_HAS_LUAT_AIR105_GPIO_ENABLED
+	help
+	  Enable support for Air105 GPIO.
