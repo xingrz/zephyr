@@ -38,6 +38,13 @@
 			reg = <0x20000000 0xa0000>;
 		};
 
+		pinctrl: pin-controller@4001d000 {
+			compatible = "luat,air105-pinctrl";
+			reg = <0x4001d000 0x1000>;
+			#address-cells = <1>;
+			#size-cells = <1>;
+		};
+
 		sysctrl: clock-controller@4001f000 {
 			compatible = "luat,air105-sysctrl";
 			reg = <0x4001f000 0x1000>;

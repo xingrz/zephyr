@@ -1,0 +1,31 @@
+# Copyright (c) 2023 Chen Xingyu <hi@xingrz.me>
+# SPDX-License-Identifier: Apache-2.0
+
+description: Pin controller for Luat Air105
+
+compatible: "luat,air105-pinctrl"
+
+include: base.yaml
+
+properties:
+  "#address-cells":
+    required: true
+    const: 1
+  "#size-cells":
+    required: true
+    const: 1
+
+child-binding:
+  description: Air105 pin controller pin group
+
+  child-binding:
+    include:
+      - name: pincfg-node.yaml
+        property-allowlist:
+          - bias-disable
+          - bias-pull-up
+
+    properties:
+      pinmux:
+        required: true
+        type: array
