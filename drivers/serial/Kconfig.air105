@@ -1,0 +1,10 @@
+# Copyright (c) 2023 Chen Xingyu <hi@xingrz.me>
+# SPDX-License-Identifier: Apache-2.0
+
+config UART_AIR105
+	bool "UART driver for Luat Air105"
+	default y
+	depends on DT_HAS_LUAT_AIR105_UART_ENABLED
+	select SERIAL_HAS_DRIVER
+	help
+	  Enable support for Air105 UART.

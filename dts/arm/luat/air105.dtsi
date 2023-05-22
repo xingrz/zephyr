@@ -38,6 +38,22 @@
 			reg = <0x20000000 0xa0000>;
 		};
 
+		uart0: serial@40016000 {
+			compatible = "luat,air105-uart";
+			reg = <0x40016000 0x1000>;
+			interrupts = <UART0_IRQ 0>;
+			clocks = <&sysctrl AIR105_PCLK AIR105_CLOCK_APB_UART0>;
+			status = "disabled";
+		};
+
+		uart1: serial@40017000 {
+			compatible = "luat,air105-uart";
+			reg = <0x40017000 0x1000>;
+			interrupts = <UART1_IRQ 0>;
+			clocks = <&sysctrl AIR105_PCLK AIR105_CLOCK_APB_UART1>;
+			status = "disabled";
+		};
+
 		pinctrl: pin-controller@4001d000 {
 			compatible = "luat,air105-pinctrl";
 			reg = <0x4001d000 0x1000>;
@@ -102,6 +118,22 @@
 			hclk-divider = <2>;
 			pclk-divider = <2>;
 			#clock-cells = <2>;
+		};
+
+		uart2: serial@40044000 {
+			compatible = "luat,air105-uart";
+			reg = <0x40044000 0x1000>;
+			interrupts = <UART2_IRQ 0>;
+			clocks = <&sysctrl AIR105_PCLK AIR105_CLOCK_APB_UART2>;
+			status = "disabled";
+		};
+
+		uart3: serial@40045000 {
+			compatible = "luat,air105-uart";
+			reg = <0x40045000 0x1000>;
+			interrupts = <UART3_IRQ 0>;
+			clocks = <&sysctrl AIR105_PCLK AIR105_CLOCK_APB_UART3>;
+			status = "disabled";
 		};
 	};
 };
