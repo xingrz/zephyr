@@ -9,6 +9,8 @@
 #include <arm/armv7-m.dtsi>
 #include <arm/luat/air105-irq.h>
 
+#include <zephyr/dt-bindings/clock/air105-clocks.h>
+
 / {
 	chosen {
 		zephyr,sram = &sram0;
@@ -34,6 +36,17 @@
 		sram0: memory@20000000 {
 			compatible = "mmio-sram";
 			reg = <0x20000000 0xa0000>;
+		};
+
+		sysctrl: clock-controller@4001f000 {
+			compatible = "luat,air105-sysctrl";
+			reg = <0x4001f000 0x1000>;
+			clock-source = "osc12m";
+			clock-frequency = <DT_FREQ_M(168)>;
+			pll-divider = <2>;
+			hclk-divider = <2>;
+			pclk-divider = <2>;
+			#clock-cells = <2>;
 		};
 	};
 };

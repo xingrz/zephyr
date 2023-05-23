@@ -1,0 +1,9 @@
+# Copyright (c) 2023 Chen Xingyu <hi@xingrz.me>
+# SPDX-License-Identifier: Apache-2.0
+
+config CLOCK_CONTROL_AIR105
+	bool "Clock controller for Luat Air105"
+	default y
+	depends on DT_HAS_LUAT_AIR105_SYSCTRL_ENABLED
+	help
+	  Enable support for Air105 clock controller.

@@ -1,0 +1,90 @@
+# Copyright (c) 2023 Chen Xingyu <hi@xingrz.me>
+# SPDX-License-Identifier: Apache-2.0
+
+description: Clock controller for Luat Air105
+
+compatible: "luat,air105-sysctrl"
+
+include: [clock-controller.yaml, base.yaml]
+
+properties:
+  reg:
+    required: true
+
+  clock-source:
+    required: true
+    type: string
+    description: |
+      The clock source for the system clock. Valid values are:
+        - "xtal12m": External 12MHz crystal
+        - "osc12m": Internal 12MHz RC oscillator
+    enum:
+      - "xtal12m"
+      - "osc12m"
+
+  clock-frequency:
+    required: true
+    type: int
+    description: |
+      The frequency of the system clock. Valid values are:
+        - 108000000, 108 MHz
+        - 120000000, 120 MHz
+        - 132000000, 132 MHz
+        - 144000000, 144 MHz
+        - 156000000, 156 MHz
+        - 168000000, 168 MHz
+        - 180000000, 180 MHz
+        - 192000000, 192 MHz
+        - 204000000, 204 MHz
+    enum:
+      - 108000000
+      - 120000000
+      - 132000000
+      - 144000000
+      - 156000000
+      - 168000000
+      - 180000000
+      - 192000000
+      - 204000000
+
+  pll-divider:
+    required: true
+    type: int
+    description: |
+      The divider of the PLL clock of which output is FCLK. Valid values are:
+        - 0: FCLK = PLL_FREQ
+        - 2: FCLK = PLL_FREQ / 2
+        - 4: FCLK = PLL_FREQ / 4
+    enum:
+      - 0
+      - 2
+      - 4
+
+  hclk-divider:
+    required: true
+    type: int
+    description: |
+      The divider of the FCLK clock of which output is HCLK. Valid values are:
+        - 0: HCLK = FCLK (for FCLK <= 102 MHz)
+        - 2: HCLK = FCLK / 2
+    enum:
+      - 0
+      - 2
+
+  pclk-divider:
+    required: true
+    type: int
+    description: |
+      The divider of the HCLK clock of which output is PCLK. Valid values are:
+        - 2: PCLK = HCLK / 2
+        - 4: PCLK = HCLK / 4
+    enum:
+      - 2
+      - 4
+
+  "#clock-cells":
+    const: 2
+
+clock-cells:
+  - clock-type
+  - clock-gate

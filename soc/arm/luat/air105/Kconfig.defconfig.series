@@ -13,4 +13,7 @@ config NUM_IRQS
 config FLASH_LOAD_OFFSET
 	default 0x1000
 
+config CLOCK_CONTROL
+	default y
+
 endif # SOC_SERIES_AIR105
