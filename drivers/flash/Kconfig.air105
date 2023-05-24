@@ -1,0 +1,12 @@
+# Copyright (c) 2023 Chen Xingyu <hi@xingrz.me>
+# SPDX-License-Identifier: Apache-2.0
+
+config SOC_FLASH_AIR105
+	bool "Flash controller for Luat Air105"
+	default y
+	depends on DT_HAS_LUAT_AIR105_FLASH_CONTROLLER_ENABLED
+	select FLASH_HAS_DRIVER_ENABLED
+	select FLASH_HAS_PAGE_LAYOUT
+	select FLASH_JESD216
+	help
+	  Enable support for Air105 Flash.
