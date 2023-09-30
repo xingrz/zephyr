@@ -1,0 +1,17 @@
+# Copyright (c) 2023 Chen Xingyu <hi@xingrz.me>
+# SPDX-License-Identifier: Apache-2.0
+
+description: BCM2711 Pin Controller
+
+compatible: "brcm,bcm2711-pinctrl"
+
+include: base.yaml
+
+child-binding:
+  description: BCM2711 pinmux group
+
+  child-binding:
+    properties:
+      pinmux:
+        required: true
+        type: array

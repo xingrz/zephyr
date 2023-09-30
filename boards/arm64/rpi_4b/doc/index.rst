@@ -28,6 +28,9 @@ hardware features:
    * - GPIO
      - :kconfig:option:`CONFIG_GPIO`
      - :dtcompatible:`brcm,bcm2711-gpio`
+   * - PINCTRL
+     - N/A
+     - :dtcompatible:`brcm,bcm2711-pinctrl`
    * - UART (Mini UART)
      - :kconfig:option:`CONFIG_SERIAL`
      - :dtcompatible:`brcm,bcm2711-aux-uart`
