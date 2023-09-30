@@ -34,6 +34,9 @@ hardware features:
    * - PINCTRL
      - N/A
      - :dtcompatible:`brcm,bcm2711-pinctrl`
+   * - PWM
+     - :kconfig:option:`CONFIG_PWM`
+     - :dtcompatible:`brcm,bcm2711-pwm`
    * - UART (Mini UART)
      - :kconfig:option:`CONFIG_SERIAL`
      - :dtcompatible:`brcm,bcm2711-aux-uart`

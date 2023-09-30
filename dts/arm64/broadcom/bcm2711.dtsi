@@ -91,6 +91,17 @@
 			};
 		};
 
+		pwm0: pwm@fe20c000 {
+			compatible = "brcm,bcm2711-pwm";
+			reg = <0xfe20c000 0x28>;
+			#pwm-cells = <2>;
+			status = "disabled";
+		};
+
+		/*
+		 * pwm1 is omitted, since it is not accessible by users
+		 */
+
 		uart1: uart@fe215040 {
 			compatible = "brcm,bcm2711-aux-uart";
 			reg = <0xfe215040 0x40>;

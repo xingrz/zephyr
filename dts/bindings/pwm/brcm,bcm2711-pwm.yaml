@@ -1,0 +1,22 @@
+# Copyright (c) 2023 Chen Xingyu <hi@xingrz.me>
+# SPDX-License-Identifier: Apache-2.0
+
+description: BCM2711 PWM
+
+compatible: "brcm,bcm2711-pwm"
+
+include: [pwm-controller.yaml, pinctrl-device.yaml, base.yaml]
+
+properties:
+  reg:
+    required: true
+
+  clocks:
+    required: true
+
+  "#pwm-cells":
+    const: 2
+
+pwm-cells:
+- channel
+- period
