@@ -25,6 +25,9 @@ hardware features:
    * - GIC-400
      - N/A
      - :dtcompatible:`arm,gic-v2`
+   * - Clock control
+     - N/A
+     - :dtcompatible:`brcm,bcm2711-cprman`
    * - GPIO
      - :kconfig:option:`CONFIG_GPIO`
      - :dtcompatible:`brcm,bcm2711-gpio`

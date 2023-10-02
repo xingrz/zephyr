@@ -52,6 +52,14 @@
 			status = "okay";
 		};
 
+		clocks: cprman@fe101000 {
+			compatible = "brcm,bcm2711-cprman";
+			reg = <0xfe101000 0x2000>;
+			clocks = <&clk_osc>;
+			#clock-cells = <2>;
+			status = "okay";
+		};
+
 		pinctrl: pinctrl@fe200000 {
 			compatible = "brcm,bcm2711-pinctrl";
 			reg = <0xfe200000 0xf4>;
@@ -90,6 +98,14 @@
 			interrupts = <GIC_SPI 93 IRQ_TYPE_LEVEL
 				      IRQ_DEFAULT_PRIORITY>;
 			status = "disabled";
+		};
+	};
+
+	clocks {
+		clk_osc: clk-osc {
+			compatible = "fixed-clock";
+			clock-frequency = <DT_FREQ_M(54)>;
+			#clock-cells = <0>;
 		};
 	};
 };
