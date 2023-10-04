@@ -1,0 +1,28 @@
+/*
+ * Copyright (c) 2023 Chen Xingyu <hi@xingrz.me>
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+#include <zephyr/dt-bindings/clock/bcm2711-clocks.h>
+#include <zephyr/dt-bindings/pinctrl/bcm2711-pinctrl.h>
+
+/ {
+	aliases {
+		pwm-0 = &pwm0;
+	};
+};
+
+&pinctrl {
+	pwm0_default: pwm0_default {
+		group1 {
+			pinmux = <GPIO12_PWM0_0>;
+		};
+	};
+};
+
+&pwm0 {
+	status = "okay";
+	clocks = <&clocks BCM2711_CLOCK_PWM DT_FREQ_M(10)>;
+	pinctrl-0 = <&pwm0_default>;
+	pinctrl-names = "default";
+};
