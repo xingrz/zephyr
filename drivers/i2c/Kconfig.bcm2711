@@ -1,0 +1,10 @@
+# Copyright (c) 2023 Chen Xingyu <hi@xingrz.me>
+# SPDX-License-Identifier: Apache-2.0
+
+config I2C_BCM2711
+	bool "BCM2711 I2C driver"
+	default y
+	depends on DT_HAS_BRCM_BCM2711_I2C_ENABLED
+	depends on CLOCK_CONTROL
+	help
+	  Enable BCM2711 I2C driver.

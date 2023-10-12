@@ -8,6 +8,7 @@
 #include <freq.h>
 
 #include <arm64/armv8-a.dtsi>
+#include <zephyr/dt-bindings/clock/bcm2711-clocks.h>
 #include <zephyr/dt-bindings/interrupt-controller/arm-gic.h>
 
 / {
@@ -91,6 +92,61 @@
 			};
 		};
 
+		i2c0: i2c@fe205000 {
+			compatible = "brcm,bcm2711-i2c";
+			reg = <0xfe205000 0x20>;
+			interrupts = <GIC_SPI 117 IRQ_TYPE_LEVEL
+				      IRQ_DEFAULT_PRIORITY>;
+			clocks = <&clocks BCM2711_CLOCK_VPU DT_FREQ_M(150)>;
+			#address-cells = <1>;
+			#size-cells = <0>;
+			status = "disabled";
+		};
+
+		i2c3: i2c@fe205600 {
+			compatible = "brcm,bcm2711-i2c";
+			reg = <0xfe205600 0x20>;
+			interrupts = <GIC_SPI 117 IRQ_TYPE_LEVEL
+				      IRQ_DEFAULT_PRIORITY>;
+			clocks = <&clocks BCM2711_CLOCK_VPU DT_FREQ_M(150)>;
+			#address-cells = <1>;
+			#size-cells = <0>;
+			status = "disabled";
+		};
+
+		i2c4: i2c@fe205800 {
+			compatible = "brcm,bcm2711-i2c";
+			reg = <0xfe205800 0x20>;
+			interrupts = <GIC_SPI 117 IRQ_TYPE_LEVEL
+				      IRQ_DEFAULT_PRIORITY>;
+			clocks = <&clocks BCM2711_CLOCK_VPU DT_FREQ_M(150)>;
+			#address-cells = <1>;
+			#size-cells = <0>;
+			status = "disabled";
+		};
+
+		i2c5: i2c@fe205a00 {
+			compatible = "brcm,bcm2711-i2c";
+			reg = <0xfe205a00 0x20>;
+			interrupts = <GIC_SPI 117 IRQ_TYPE_LEVEL
+				      IRQ_DEFAULT_PRIORITY>;
+			clocks = <&clocks BCM2711_CLOCK_VPU DT_FREQ_M(150)>;
+			#address-cells = <1>;
+			#size-cells = <0>;
+			status = "disabled";
+		};
+
+		i2c6: i2c@fe205c00 {
+			compatible = "brcm,bcm2711-i2c";
+			reg = <0xfe205c00 0x20>;
+			interrupts = <GIC_SPI 117 IRQ_TYPE_LEVEL
+				      IRQ_DEFAULT_PRIORITY>;
+			clocks = <&clocks BCM2711_CLOCK_VPU DT_FREQ_M(150)>;
+			#address-cells = <1>;
+			#size-cells = <0>;
+			status = "disabled";
+		};
+
 		pwm0: pwm@fe20c000 {
 			compatible = "brcm,bcm2711-pwm";
 			reg = <0xfe20c000 0x28>;
@@ -108,6 +164,17 @@
 			clock-frequency = <DT_FREQ_M(500)>;
 			interrupts = <GIC_SPI 93 IRQ_TYPE_LEVEL
 				      IRQ_DEFAULT_PRIORITY>;
+			status = "disabled";
+		};
+
+		i2c1: i2c@fe804000 {
+			compatible = "brcm,bcm2711-i2c";
+			reg = <0xfe804000 0x20>;
+			interrupts = <GIC_SPI 117 IRQ_TYPE_LEVEL
+				      IRQ_DEFAULT_PRIORITY>;
+			clocks = <&clocks BCM2711_CLOCK_VPU DT_FREQ_M(150)>;
+			#address-cells = <1>;
+			#size-cells = <0>;
 			status = "disabled";
 		};
 	};
