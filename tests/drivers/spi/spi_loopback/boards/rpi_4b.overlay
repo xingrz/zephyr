@@ -1,0 +1,41 @@
+/*
+ * Copyright (c) 2023 Chen Xingyu <hi@xingrz.me>
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+#include <freq.h>
+#include <zephyr/dt-bindings/pinctrl/bcm2711-pinctrl.h>
+
+&pinctrl {
+	spi0_default: spi0_default {
+		group1 {
+			pinmux = <GPIO9_SPI0_MISO>,
+				 <GPIO10_SPI0_MOSI>,
+				 <GPIO11_SPI0_SCLK>;
+		};
+	};
+};
+
+&gpio0 {
+	status = "okay";
+};
+
+&spi0 {
+	status = "okay";
+	pinctrl-0 = <&spi0_default>;
+	pinctrl-names = "default";
+
+	cs-gpios = <&gpio0 8 GPIO_ACTIVE_LOW>;
+
+	slow@0 {
+		compatible = "test-spi-loopback-slow";
+		reg = <0>;
+		spi-max-frequency = <DT_FREQ_K(500)>;
+	};
+
+	fast@0 {
+		compatible = "test-spi-loopback-fast";
+		reg = <0>;
+		spi-max-frequency = <DT_FREQ_M(16)>;
+	};
+};
