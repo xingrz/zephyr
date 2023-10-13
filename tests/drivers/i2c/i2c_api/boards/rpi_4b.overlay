@@ -1,0 +1,27 @@
+/*
+ * Copyright (c) 2023 Chen Xingyu <hi@xingrz.me>
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+#include <zephyr/dt-bindings/pinctrl/bcm2711-pinctrl.h>
+
+/ {
+	aliases {
+		i2c-0 = &i2c3;
+	};
+};
+
+&pinctrl {
+	i2c3_default: i2c3_default {
+		group1 {
+			pinmux = <GPIO2_SDA3>,
+				 <GPIO3_SCL3>;
+		};
+	};
+};
+
+&i2c3 {
+	status = "okay";
+	pinctrl-0 = <&i2c3_default>;
+	pinctrl-names = "default";
+};
