@@ -37,6 +37,9 @@ hardware features:
    * - PWM
      - :kconfig:option:`CONFIG_PWM`
      - :dtcompatible:`brcm,bcm2711-pwm`
+   * - SPI
+     - :kconfig:option:`CONFIG_SPI`
+     - :dtcompatible:`brcm,bcm2711-spi`
    * - UART (Mini UART)
      - :kconfig:option:`CONFIG_SERIAL`
      - :dtcompatible:`brcm,bcm2711-aux-uart`
