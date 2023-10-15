@@ -43,6 +43,7 @@ def test_runner_imports():
                     'stm32cubeprogrammer',
                     'stm32flash',
                     'trace32',
+                    'u-boot',
                     'uf2',
                     'xtensa'))
     assert runner_names == expected

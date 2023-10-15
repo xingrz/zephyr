@@ -53,6 +53,7 @@ _names = [
     'stm32cubeprogrammer',
     'stm32flash',
     'trace32',
+    'u-boot',
     'uf2',
     'xtensa',
     # Keep this list sorted by runner name; don't add to the end.
