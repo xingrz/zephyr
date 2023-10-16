@@ -78,3 +78,28 @@ the serial console (GPIO 14/15):
 
    *** Booting Zephyr OS build XXXXXXXXXXXX  ***
    Hello World! Raspberry Pi 4 Model B!
+
+U-Boot
+======
+
+Since it's mad difficult to eject and insert to update the TF card every time
+you update ``zephyr.bin``, it is possible to use U-Boot to load the application,
+and update it via serial console and ymodem protocol.
+
+1. Clone and build `U-Boot <https://github.com/u-boot/u-boot>`_, and copy
+   ``u-boot.bin`` to the TF card
+2. Edit ``config.txt``, replace ``kernel=zephyr.bin`` with ``kernel=u-boot.bin``
+3. Power up the board, after you see the U-Boot prompt, run the following
+   commands:
+
+   .. code-block:: text
+
+      setenv bootcmd 'fatload mmc 0:1 0x200000 zephyr.bin; go 0x200000'
+      saveenv
+
+Now you can update the application by running the following command (a manually
+power down and up is required after the command):
+
+.. code-block:: text
+
+   west flash -r u-boot --port /dev/ttyUSB0
