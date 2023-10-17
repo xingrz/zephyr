@@ -121,16 +121,46 @@ static int spi_bcm2711_configure(const struct device *dev, const struct spi_conf
 	return 0;
 }
 
-static int spi_bcm2711_rd_fifo(const struct device *dev, int32_t limit)
+static inline void spi_bcm2711_rd_byte(struct spi_bcm2711_data *data)
+{
+	uint32_t regval;
+
+	regval = sys_read32(SPI_FIFO(data->base));
+	if (data->ctx.rx_buf) {
+		*data->ctx.rx_buf = (uint8_t)(regval & 0xFF);
+		LOG_DBG("Read byte: 0x%02x", regval);
+	} else {
+		LOG_DBG("Read byte: 0x%02x (SKIP)", regval);
+	}
+
+	spi_context_update_rx(&data->ctx, 1, 1);
+}
+
+static inline void spi_bcm2711_wr_byte(struct spi_bcm2711_data *data)
+{
+	uint32_t regval;
+
+	if (data->ctx.tx_buf) {
+		regval = (uint32_t)*data->ctx.tx_buf;
+		LOG_DBG("Write byte: 0x%02x", regval);
+	} else {
+		regval = 0x00;
+		LOG_DBG("Write byte: 0x%02x (SKIP)", regval);
+	}
+	sys_write32(regval, SPI_FIFO(data->base));
+
+	spi_context_update_tx(&data->ctx, 1, 1);
+}
+
+static int spi_bcm2711_rd_fifo(const struct device *dev)
 {
 	struct spi_bcm2711_data *data = DEV_DATA(dev);
 
 	uint32_t count = 0;
-	LOG_DBG("Request to read %d bytes", limit);
+	LOG_DBG("Request to read all");
 
-	while (spi_context_rx_buf_on(&data->ctx) && limit--) {
-		*data->ctx.rx_buf = (uint8_t)(sys_read32(SPI_FIFO(data->base)) & 0xFF);
-		spi_context_update_rx(&data->ctx, 1, 1);
+	while (spi_context_rx_on(&data->ctx) && (sys_read32(SPI_CS(data->base)) & SPI_CS_RXD)) {
+		spi_bcm2711_rd_byte(data);
 		count++;
 	}
 
@@ -139,16 +169,49 @@ static int spi_bcm2711_rd_fifo(const struct device *dev, int32_t limit)
 	return 0;
 }
 
-static int spi_bcm2711_wr_fifo(const struct device *dev, int32_t limit)
+static int spi_bcm2711_wr_fifo(const struct device *dev)
+{
+	struct spi_bcm2711_data *data = DEV_DATA(dev);
+
+	uint32_t count = 0;
+	LOG_DBG("Request to write all");
+
+	while (spi_context_tx_on(&data->ctx) && (sys_read32(SPI_CS(data->base)) & SPI_CS_TXD)) {
+		spi_bcm2711_wr_byte(data);
+		count++;
+	}
+
+	LOG_DBG("Actually wrote %d bytes", count);
+
+	return 0;
+}
+
+static int spi_bcm2711_rd_fifo_blind(const struct device *dev, uint32_t limit)
+{
+	struct spi_bcm2711_data *data = DEV_DATA(dev);
+
+	uint32_t count = 0;
+	LOG_DBG("Request to read %d bytes", limit);
+
+	while (spi_context_rx_on(&data->ctx) && limit--) {
+		spi_bcm2711_rd_byte(data);
+		count++;
+	}
+
+	LOG_DBG("Actually read %d bytes", count);
+
+	return 0;
+}
+
+static int spi_bcm2711_wr_fifo_blind(const struct device *dev, uint32_t limit)
 {
 	struct spi_bcm2711_data *data = DEV_DATA(dev);
 
 	uint32_t count = 0;
 	LOG_DBG("Request to write %d bytes", limit);
 
-	while (spi_context_tx_buf_on(&data->ctx) && limit--) {
-		sys_write32((uint32_t)*data->ctx.tx_buf, SPI_FIFO(data->base));
-		spi_context_update_tx(&data->ctx, 1, 1);
+	while (spi_context_tx_on(&data->ctx) && limit--) {
+		spi_bcm2711_wr_byte(data);
 		count++;
 	}
 
@@ -230,14 +293,14 @@ static void spi_bcm2711_isr(const struct device *dev)
 
 	/* Read based on status of RX FIFO */
 	if (regval & SPI_CS_RXF) {
-		spi_bcm2711_rd_fifo(dev, 64);
+		spi_bcm2711_rd_fifo_blind(dev, 64);
 	} else if (regval & SPI_CS_RXR) {
-		spi_bcm2711_rd_fifo(dev, 48);
+		spi_bcm2711_rd_fifo_blind(dev, 48);
 	}
 
 	/* Fill TX FIFO */
 	if (regval & SPI_CS_DONE) {
-		spi_bcm2711_wr_fifo(dev, 64);
+		spi_bcm2711_wr_fifo_blind(dev, 64);
 
 		/* Clear TX status */
 		regval = sys_read32(SPI_CS(data->base));
@@ -246,10 +309,10 @@ static void spi_bcm2711_isr(const struct device *dev)
 	}
 
 	/* Drain RX FIFO */
-	spi_bcm2711_rd_fifo(dev, -1);
+	spi_bcm2711_rd_fifo(dev);
 
 	/* Drain TX FIFO */
-	spi_bcm2711_wr_fifo(dev, -1);
+	spi_bcm2711_wr_fifo(dev);
 
 	LOG_DBG("ISR processed");
 
