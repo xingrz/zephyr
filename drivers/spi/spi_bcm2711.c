@@ -125,10 +125,16 @@ static int spi_bcm2711_rd_fifo(const struct device *dev, int32_t limit)
 {
 	struct spi_bcm2711_data *data = DEV_DATA(dev);
 
+	uint32_t count = 0;
+	LOG_DBG("Request to read %d bytes", limit);
+
 	while (spi_context_rx_buf_on(&data->ctx) && limit--) {
 		*data->ctx.rx_buf = (uint8_t)(sys_read32(SPI_FIFO(data->base)) & 0xFF);
 		spi_context_update_rx(&data->ctx, 1, 1);
+		count++;
 	}
+
+	LOG_DBG("Actually read %d bytes", count);
 
 	return 0;
 }
@@ -137,10 +143,16 @@ static int spi_bcm2711_wr_fifo(const struct device *dev, int32_t limit)
 {
 	struct spi_bcm2711_data *data = DEV_DATA(dev);
 
+	uint32_t count = 0;
+	LOG_DBG("Request to write %d bytes", limit);
+
 	while (spi_context_tx_buf_on(&data->ctx) && limit--) {
 		sys_write32((uint32_t)*data->ctx.tx_buf, SPI_FIFO(data->base));
 		spi_context_update_tx(&data->ctx, 1, 1);
+		count++;
 	}
+
+	LOG_DBG("Actually wrote %d bytes", count);
 
 	return 0;
 }
@@ -170,7 +182,7 @@ static int spi_bcm2711_transceive_impl(const struct device *dev, const struct sp
 	regval |= (SPI_CS_INTR | SPI_CS_INTD | SPI_CS_TA);
 	sys_write32(regval, SPI_CS(data->base));
 
-	ret = spi_context_wait_for_completion(&data->ctx);
+	// ret = spi_context_wait_for_completion(&data->ctx);
 	/* Keep going even if ret < 0 */
 
 	spi_context_cs_control(&data->ctx, false);
@@ -213,6 +225,8 @@ static void spi_bcm2711_isr(const struct device *dev)
 	uint32_t regval;
 
 	regval = sys_read32(SPI_CS(data->base));
+	LOG_DBG("SPI ISR: 0x%08x (RXF: %d, RXR: %d, DONE: %d)", regval, !!(regval & SPI_CS_RXF),
+		!!(regval & SPI_CS_RXR), !!(regval & SPI_CS_DONE));
 
 	/* Read based on status of RX FIFO */
 	if (regval & SPI_CS_RXF) {
@@ -237,6 +251,8 @@ static void spi_bcm2711_isr(const struct device *dev)
 	/* Drain TX FIFO */
 	spi_bcm2711_wr_fifo(dev, -1);
 
+	LOG_DBG("ISR processed");
+
 	/* Transfer completed */
 	if (!spi_context_rx_on(&data->ctx)) {
 		regval = sys_read32(SPI_CS(data->base));
@@ -244,6 +260,8 @@ static void spi_bcm2711_isr(const struct device *dev)
 		sys_write32(regval, SPI_CS(data->base));
 
 		spi_context_complete(&data->ctx, dev, 0);
+
+		LOG_DBG("Transfer complete");
 	}
 }
 
