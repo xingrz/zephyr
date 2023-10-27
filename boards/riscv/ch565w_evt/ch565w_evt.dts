@@ -7,6 +7,7 @@
 
 #include <zephyr/dt-bindings/gpio/gpio.h>
 #include <wch/ch56x/ch565w.dtsi>
+#include <wch/ch56x/ch565w-pinctrl.dtsi>
 
 / {
 	model = "WCH CH565W-EVT";
@@ -21,6 +22,8 @@
 	chosen {
 		zephyr,sram = &rams;
 		zephyr,flash = &flash;
+		zephyr,console = &uart1;
+		zephyr,shell-uart = &uart1;
 	};
 
 	leds {
@@ -41,4 +44,11 @@
 			label = "LED2";
 		};
 	};
+};
+
+&uart1 {
+	status = "okay";
+	current-speed = <115200>;
+	pinctrl-0 = <&uart1_default>;
+	pinctrl-names = "default";
 };
