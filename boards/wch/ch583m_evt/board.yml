@@ -1,0 +1,5 @@
+board:
+  name: ch583m_evt
+  vendor: wch
+  socs:
+  - name: ch583
