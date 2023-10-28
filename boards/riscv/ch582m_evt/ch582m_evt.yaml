@@ -1,0 +1,11 @@
+identifier: ch582m_evt
+name: WCH CH582M-EVT
+type: mcu
+arch: riscv32
+toolchain:
+  - zephyr
+supported:
+  - clock
+  - gpio
+  - interrupt-controller
+  - timer

@@ -1,0 +1,48 @@
+/*
+ * Copyright (c) 2023 Chen Xingyu <hi@xingrz.me>
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+/dts-v1/;
+
+#include <zephyr/dt-bindings/gpio/gpio.h>
+#include <wch/ch58x/ch582m.dtsi>
+#include <wch/ch58x/ch582m-pinctrl.dtsi>
+
+/ {
+	model = "WCH CH582M-EVT";
+	compatible = "wch,ch582m-evt";
+
+	aliases {
+		led0 = &led_1;
+		led1 = &led_2;
+	};
+
+	chosen {
+		zephyr,sram = &sram;
+		zephyr,flash = &flash;
+		zephyr,console = &uart1;
+		zephyr,shell-uart = &uart1;
+	};
+
+	leds {
+		compatible = "gpio-leds";
+
+		led_1: led-1 {
+			gpios = <&gpiob 18 GPIO_ACTIVE_LOW>;
+			label = "LED1";
+		};
+
+		led_2: led-2 {
+			gpios = <&gpiob 19 GPIO_ACTIVE_LOW>;
+			label = "LED2";
+		};
+	};
+};
+
+&uart1 {
+	status = "okay";
+	current-speed = <115200>;
+	pinctrl-0 = <&uart1_default>;
+	pinctrl-names = "default";
+};
