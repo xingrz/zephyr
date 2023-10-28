@@ -4,3 +4,15 @@
  */
 
 #include <wch/ch58x/ch58x-common.dtsi>
+
+&gpioa {
+	gpio-reserved-ranges = <0 4>,   /* PA 0 - PA 3 */
+			       <6 2>;   /* PA 6 - PA 7 */
+};
+
+&gpiob {
+	gpio-reserved-ranges = <0 4>,   /* PB 0 - PB 3 */
+			       <5 2>,   /* PB 5 - PB 6 */
+			       <8 2>,   /* PB 8 - PB 9 */
+			       <16 6>;  /* PB 16 - PB 21 */
+};
