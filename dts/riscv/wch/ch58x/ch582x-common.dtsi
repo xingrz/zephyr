@@ -1,0 +1,15 @@
+/*
+ * Copyright (c) 2023 Chen Xingyu <hi@xingrz.me>
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+#include <wch/ch58x/ch58x-common.dtsi>
+
+/ {
+	soc {
+		flash: flash@0 {
+			compatible = "soc-nv-flash";
+			reg = <0x00000000 DT_SIZE_K(448)>;
+		};
+	};
+};

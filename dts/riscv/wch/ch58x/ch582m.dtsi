@@ -1,0 +1,14 @@
+/*
+ * Copyright (c) 2023 Chen Xingyu <hi@xingrz.me>
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+#include <wch/ch58x/ch58x-common.dtsi>
+#include <wch/ch58x/ch58xm-common.dtsi>
+#include <wch/ch58x/ch582x-common.dtsi>
+
+/ {
+	soc {
+		compatible = "wch,ch582m";
+	};
+};
