@@ -25,6 +25,24 @@
 		syscon: system-controller@40001000 {
 			reg = <0x40001000 0xa0>;
 		};
+
+		gpioa: gpio@400010a0 {
+			compatible = "wch,ch57x-gpio";
+			reg = <0x400010a0 0x20>;
+			interrupts = <CH58X_INT_GPIO_A>;
+			gpio-controller;
+			#gpio-cells = <2>;
+			ngpios = <16>;
+		};
+
+		gpiob: gpio@400010c0 {
+			compatible = "wch,ch57x-gpio";
+			reg = <0x400010c0 0x20>;
+			interrupts = <CH58X_INT_GPIO_B>;
+			gpio-controller;
+			#gpio-cells = <2>;
+			ngpios = <24>;
+		};
 	};
 
 	clocks {
