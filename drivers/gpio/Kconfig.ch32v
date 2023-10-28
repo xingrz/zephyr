@@ -8,3 +8,10 @@ config GPIO_CH56X
 	select SHARED_INTERRUPTS
 	help
 	  Enable WCH CH56x GPIO driver.
+
+config GPIO_CH57X
+	bool "WCH CH57x GPIO driver"
+	default y
+	depends on DT_HAS_WCH_CH57X_GPIO_ENABLED
+	help
+	  Enable WCH CH57x GPIO driver.
