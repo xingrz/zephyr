@@ -6,11 +6,10 @@
 #ifndef __SOC_H__
 #define __SOC_H__
 
-#include <zephyr/device.h>
+#include <soc_common.h>
 
-#define CH32V_SYS_BASE DT_REG_ADDR(DT_NODELABEL(syscon))
-
-void ch32v_sys_unlock(void);
-void ch32v_sys_relock(void);
+#if defined(CONFIG_SOC_CH58X)
+#include "syscon_regs_ch58x.h"
+#endif
 
 #endif /* __SOC_H__ */

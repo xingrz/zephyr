@@ -8,3 +8,7 @@ family:
     - name: ch571
     - name: ch573
   - name: qingke-v4
+    socs:
+    - name: ch581
+    - name: ch582
+    - name: ch583
