@@ -1,0 +1,15 @@
+# Copyright (c) 2023 Chen Xingyu <hi@xingrz.me>
+# SPDX-License-Identifier: Apache-2.0
+
+description: WCH CH32V V4 SysTick
+
+compatible: "wch,ch32v-v4-systick"
+
+include: base.yaml
+
+properties:
+  reg:
+    required: true
+
+  interrupts:
+    required: true

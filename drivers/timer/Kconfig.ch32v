@@ -8,3 +8,11 @@ config CH32V_V3_SYSTICK
 	select TIMER_HAS_64BIT_CYCLE_COUNTER
 	help
 	  Enable WCH CH32V V3 SysTick driver.
+
+config CH32V_V4_SYSTICK
+	bool "WCH CH32V V4 SysTick"
+	default y
+	depends on DT_HAS_WCH_CH32V_V4_SYSTICK_ENABLED
+	select TIMER_HAS_64BIT_CYCLE_COUNTER
+	help
+	  Enable WCH CH32V V4 SysTick driver.
