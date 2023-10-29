@@ -1,0 +1,50 @@
+# Copyright (c) 2023 Chen Xingyu <hi@xingrz.me>
+# SPDX-License-Identifier: Apache-2.0
+
+description: WCH CH57x clock mux controller
+
+compatible: "wch,ch57x-clkmux"
+
+include: [clock-controller.yaml, base.yaml]
+
+properties:
+  clock-frequency:
+    type: int
+    description: |
+      System clock frequency in Hz. Supported values are:
+        - DT_FREQ_M(1)
+        - DT_FREQ_M(2)
+        - DT_FREQ_M(4)
+        - DT_FREQ_K(6400)
+        - DT_FREQ_M(8)
+        - DT_FREQ_M(15)
+        - DT_FREQ_M(16)
+        - DT_FREQ_M(20)
+        - DT_FREQ_M(24)
+        - DT_FREQ_M(30)
+        - DT_FREQ_M(32)
+        - DT_FREQ_K(36900)
+        - DT_FREQ_M(40)
+        - DT_FREQ_M(48)
+        - DT_FREQ_M(60)
+        - DT_FREQ_M(80)
+    enum:
+      - 1000000
+      - 2000000
+      - 4000000
+      - 6400000
+      - 8000000
+      - 15000000
+      - 16000000
+      - 20000000
+      - 24000000
+      - 30000000
+      - 32000000
+      - 36900000
+      - 40000000
+      - 48000000
+      - 60000000
+      - 80000000
+
+  "#clock-cells":
+    const: 0
