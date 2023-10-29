@@ -1,0 +1,99 @@
+/*
+ * Copyright (c) 2023 Chen Xingyu <hi@xingrz.me>
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+#include <zephyr/dt-bindings/pinctrl/ch58x-pinctrl.h>
+
+&pinctrl {
+	/omit-if-no-ref/ tmr3_capture_remap: tmr3_capture_remap {
+		group1 {
+			pinmux = <CH58X_PINMUX_REMAP('A', 2, TMR3, REMAP)>; /* TMR3_ */
+			input-enable;
+		};
+	};
+
+	/omit-if-no-ref/ tmr3_output_remap: tmr3_output_remap {
+		group1 {
+			pinmux = <CH58X_PINMUX_REMAP('A', 2, TMR3, REMAP)>; /* TMR3_ */
+			output-enable;
+			drive-push-pull;
+		};
+	};
+
+	/omit-if-no-ref/ modem_default: modem_default {
+		group1 {
+			pinmux = <CH58X_PINMUX_REMAP('B', 5, MODEM, DEFAULT)>, /* DTR */
+				 <CH58X_PINMUX('B', 6)>;  /* RTS */
+			output-enable;
+			drive-push-pull;
+		};
+		group2 {
+			pinmux = <CH58X_PINMUX('B', 0)>,  /* CTS */
+				 <CH58X_PINMUX_REMAP('B', 1, MODEM, DEFAULT)>, /* DSR */
+				 <CH58X_PINMUX('B', 2)>,  /* RI */
+				 <CH58X_PINMUX('B', 3)>;  /* DCD */
+			input-enable;
+		};
+	};
+
+	/omit-if-no-ref/ uart2_default: uart2_default {
+		group1 {
+			pinmux = <CH58X_PINMUX_REMAP('A', 7, UART2, DEFAULT)>; /* TXD2 */
+			output-enable;
+			drive-push-pull;
+		};
+		group2 {
+			pinmux = <CH58X_PINMUX_REMAP('A', 6, UART2, DEFAULT)>; /* RXD2 */
+			input-enable;
+		};
+	};
+
+	/omit-if-no-ref/ uart2_remap: uart2_remap {
+		group1 {
+			pinmux = <CH58X_PINMUX_REMAP('B', 23, UART2, REMAP)>; /* TXD2_ */
+			output-enable;
+			drive-push-pull;
+		};
+		group2 {
+			pinmux = <CH58X_PINMUX_REMAP('B', 22, UART2, REMAP)>; /* RXD2_ */
+			input-enable;
+		};
+	};
+
+	/omit-if-no-ref/ uart3_default: uart3_default {
+		group1 {
+			pinmux = <CH58X_PINMUX_REMAP('A', 5, UART3, DEFAULT)>; /* TXD3 */
+			output-enable;
+			drive-push-pull;
+		};
+		group2 {
+			pinmux = <CH58X_PINMUX_REMAP('A', 4, UART3, DEFAULT)>; /* RXD3 */
+			input-enable;
+		};
+	};
+
+	/omit-if-no-ref/ uart3_remap: uart3_remap {
+		group1 {
+			pinmux = <CH58X_PINMUX_REMAP('B', 21, UART3, REMAP)>; /* TXD3_ */
+			output-enable;
+			drive-push-pull;
+		};
+		group2 {
+			pinmux = <CH58X_PINMUX_REMAP('B', 20, UART3, REMAP)>; /* RXD3_ */
+			input-enable;
+		};
+	};
+
+	/omit-if-no-ref/ i2c_remap: i2c_remap {
+		group1 {
+			pinmux = <CH58X_PINMUX_REMAP('B', 21, I2C, DEFAULT)>; /* SCL_ */
+			output-enable;
+			drive-push-pull;
+		};
+		group2 {
+			pinmux = <CH58X_PINMUX_REMAP('B', 20, I2C, DEFAULT)>; /* SDA_ */
+			input-enable;
+		};
+	};
+};

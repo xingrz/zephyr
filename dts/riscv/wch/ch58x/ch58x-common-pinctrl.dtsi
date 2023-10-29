@@ -1,0 +1,215 @@
+/*
+ * Copyright (c) 2023 Chen Xingyu <hi@xingrz.me>
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+#include <zephyr/dt-bindings/pinctrl/ch58x-pinctrl.h>
+
+&pinctrl {
+	/omit-if-no-ref/ tmr0_capture_default: tmr0_capture_default {
+		group1 {
+			pinmux = <CH58X_PINMUX_REMAP('A', 9, TMR0, DEFAULT)>; /* TMR0 */
+			input-enable;
+		};
+	};
+
+	/omit-if-no-ref/ tmr0_output_default: tmr0_output_default {
+		group1 {
+			pinmux = <CH58X_PINMUX_REMAP('A', 9, TMR0, DEFAULT)>; /* TMR0 */
+			output-enable;
+			drive-push-pull;
+		};
+	};
+
+	/omit-if-no-ref/ tmr0_capture_remap: tmr0_capture_remap {
+		group1 {
+			pinmux = <CH58X_PINMUX_REMAP('B', 23, TMR0, REMAP)>; /* TMR0_ */
+			input-enable;
+		};
+	};
+
+	/omit-if-no-ref/ tmr0_output_remap: tmr0_output_remap {
+		group1 {
+			pinmux = <CH58X_PINMUX_REMAP('B', 23, TMR0, REMAP)>; /* TMR0_ */
+			output-enable;
+			drive-push-pull;
+		};
+	};
+
+	/omit-if-no-ref/ tmr1_capture_default: tmr1_capture_default {
+		group1 {
+			pinmux = <CH58X_PINMUX_REMAP('A', 10, TMR1, DEFAULT)>; /* TMR1 */
+			input-enable;
+		};
+	};
+
+	/omit-if-no-ref/ tmr1_output_default: tmr1_output_default {
+		group1 {
+			pinmux = <CH58X_PINMUX_REMAP('A', 10, TMR1, DEFAULT)>; /* TMR1 */
+			output-enable;
+			drive-push-pull;
+		};
+	};
+
+	/omit-if-no-ref/ tmr1_capture_remap: tmr1_capture_remap {
+		group1 {
+			pinmux = <CH58X_PINMUX_REMAP('B', 10, TMR1, REMAP)>; /* TMR1_ */
+			input-enable;
+		};
+	};
+
+	/omit-if-no-ref/ tmr1_output_remap: tmr1_output_remap {
+		group1 {
+			pinmux = <CH58X_PINMUX_REMAP('B', 10, TMR1, REMAP)>; /* TMR1_ */
+			output-enable;
+			drive-push-pull;
+		};
+	};
+
+	/omit-if-no-ref/ tmr2_capture_default: tmr2_capture_default {
+		group1 {
+			pinmux = <CH58X_PINMUX_REMAP('A', 11, TMR2, DEFAULT)>; /* TMR2 */
+			input-enable;
+		};
+	};
+
+	/omit-if-no-ref/ tmr2_output_default: tmr2_output_default {
+		group1 {
+			pinmux = <CH58X_PINMUX_REMAP('A', 11, TMR2, DEFAULT)>; /* TMR2 */
+			output-enable;
+			drive-push-pull;
+		};
+	};
+
+	/omit-if-no-ref/ tmr2_capture_remap: tmr2_capture_remap {
+		group1 {
+			pinmux = <CH58X_PINMUX_REMAP('B', 11, TMR2, REMAP)>; /* TMR2_ */
+			input-enable;
+		};
+	};
+
+	/omit-if-no-ref/ tmr2_output_remap: tmr2_output_remap {
+		group1 {
+			pinmux = <CH58X_PINMUX_REMAP('B', 11, TMR2, REMAP)>; /* TMR2_ */
+			output-enable;
+			drive-push-pull;
+		};
+	};
+
+	/omit-if-no-ref/ tmr3_capture_default: tmr3_capture_default {
+		group1 {
+			pinmux = <CH58X_PINMUX_REMAP('B', 22, TMR3, DEFAULT)>; /* TMR3 */
+			input-enable;
+		};
+	};
+
+	/omit-if-no-ref/ tmr3_output_default: tmr3_output_default {
+		group1 {
+			pinmux = <CH58X_PINMUX_REMAP('B', 22, TMR3, DEFAULT)>; /* TMR3 */
+			output-enable;
+			drive-push-pull;
+		};
+	};
+
+	/omit-if-no-ref/ uart0_default: uart0_default {
+		group1 {
+			pinmux = <CH58X_PINMUX_REMAP('B', 7, UART0, DEFAULT)>; /* TXD0 */
+			output-enable;
+			drive-push-pull;
+		};
+		group2 {
+			pinmux = <CH58X_PINMUX_REMAP('B', 4, UART0, DEFAULT)>; /* RXD0 */
+			input-enable;
+		};
+	};
+
+	/omit-if-no-ref/ uart0_remap: uart0_remap {
+		group1 {
+			pinmux = <CH58X_PINMUX_REMAP('A', 14, UART0, REMAP)>; /* TXD0_ */
+			output-enable;
+			drive-push-pull;
+		};
+		group2 {
+			pinmux = <CH58X_PINMUX_REMAP('A', 15, UART0, REMAP)>; /* RXD0_ */
+			input-enable;
+		};
+	};
+
+	/omit-if-no-ref/ modem_remap: modem_remap {
+		group1 {
+			pinmux = <CH58X_PINMUX_REMAP('B', 15, MODEM, REMAP)>, /* DTR_ */
+				 <CH58X_PINMUX('B', 6)>;  /* RTS */
+			output-enable;
+			drive-push-pull;
+		};
+		group2 {
+			pinmux = <CH58X_PINMUX('B', 0)>,  /* CTS */
+				 <CH58X_PINMUX_REMAP('B', 14, MODEM, REMAP)>, /* DSR_ */
+				 <CH58X_PINMUX('B', 2)>,  /* RI */
+				 <CH58X_PINMUX('B', 3)>;  /* DCD */
+			input-enable;
+		};
+	};
+
+	/omit-if-no-ref/ uart1_default: uart1_default {
+		group1 {
+			pinmux = <CH58X_PINMUX_REMAP('A', 9, UART1, DEFAULT)>; /* TXD1 */
+			output-enable;
+			drive-push-pull;
+		};
+		group2 {
+			pinmux = <CH58X_PINMUX_REMAP('A', 8, UART1, DEFAULT)>; /* RXD1 */
+			input-enable;
+		};
+	};
+
+	/omit-if-no-ref/ uart1_remap: uart1_remap {
+		group1 {
+			pinmux = <CH58X_PINMUX_REMAP('B', 13, UART1, REMAP)>; /* TXD1_ */
+			output-enable;
+			drive-push-pull;
+		};
+		group2 {
+			pinmux = <CH58X_PINMUX_REMAP('B', 12, UART1, REMAP)>; /* RXD1_ */
+			input-enable;
+		};
+	};
+
+	/omit-if-no-ref/ spi0_default: spi0_default {
+		group1 {
+			pinmux = <CH58X_PINMUX_REMAP('A', 13, SPI0, DEFAULT)>, /* SCK0 */
+				 <CH58X_PINMUX_REMAP('A', 14, SPI0, DEFAULT)>; /* MOSI */
+			output-enable;
+			drive-push-pull;
+		};
+		group2 {
+			pinmux = <CH58X_PINMUX_REMAP('A', 15, SPI0, DEFAULT)>; /* MISO */
+			input-enable;
+		};
+	};
+
+	/omit-if-no-ref/ spi0_remap: spi0_remap {
+		group1 {
+			pinmux = <CH58X_PINMUX_REMAP('B', 13, SPI0, REMAP)>, /* SCK0_ */
+				 <CH58X_PINMUX_REMAP('B', 14, SPI0, REMAP)>; /* MOSI_ */
+			output-enable;
+			drive-push-pull;
+		};
+		group2 {
+			pinmux = <CH58X_PINMUX_REMAP('B', 15, SPI0, REMAP)>; /* MISO_ */
+			input-enable;
+		};
+	};
+
+	/omit-if-no-ref/ i2c_default: i2c_default {
+		group1 {
+			pinmux = <CH58X_PINMUX_REMAP('B', 13, I2C, DEFAULT)>; /* SCL */
+			output-enable;
+			drive-push-pull;
+		};
+		group2 {
+			pinmux = <CH58X_PINMUX_REMAP('B', 12, I2C, DEFAULT)>; /* SDA */
+			input-enable;
+		};
+	};
+};

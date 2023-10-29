@@ -1,0 +1,22 @@
+/*
+ * Copyright (c) 2023 Chen Xingyu <hi@xingrz.me>
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+#include <wch/ch58x/ch58x-common-pinctrl.dtsi>
+#include <wch/ch58x/ch58xm-common-pinctrl.dtsi>
+
+&pinctrl {
+	/omit-if-no-ref/ spi1_default: spi1_default {
+		group1 {
+			pinmux = <CH58X_PINMUX('A', 0)>,  /* SCK1 */
+				 <CH58X_PINMUX('A', 1)>;  /* MOSI1 */
+			output-enable;
+			drive-push-pull;
+		};
+		group2 {
+			pinmux = <CH58X_PINMUX('A', 2)>;  /* MISO1 */
+			input-enable;
+		};
+	};
+};
