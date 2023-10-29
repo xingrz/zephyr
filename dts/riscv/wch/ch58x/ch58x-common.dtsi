@@ -24,4 +24,12 @@
 			reg = <0x40001000 0xa0>;
 		};
 	};
+
+	clocks {
+		hclk: clkmux {
+			compatible = "wch,ch57x-clkmux";
+			clock-frequency = <DT_FREQ_K(6400)>;
+			#clock-cells = <0>;
+		};
+	};
 };
