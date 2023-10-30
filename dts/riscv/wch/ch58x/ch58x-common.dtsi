@@ -6,6 +6,7 @@
 #include <mem.h>
 #include <freq.h>
 
+#include <zephyr/dt-bindings/clock/ch58x-clocks.h>
 #include <zephyr/dt-bindings/interrupt-controller/ch58x-int.h>
 
 #include <wch/qingke-v4.dtsi>
@@ -55,6 +56,12 @@
 			compatible = "wch,ch57x-clkmux";
 			clock-frequency = <DT_FREQ_K(6400)>;
 			#clock-cells = <0>;
+		};
+
+		hclk: hclk {
+			compatible = "wch,ch5xx-hclk";
+			clocks = <&clkmux>;
+			#clock-cells = <2>;
 		};
 	};
 };
