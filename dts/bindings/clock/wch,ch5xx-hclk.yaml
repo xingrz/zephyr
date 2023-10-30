@@ -1,0 +1,19 @@
+# Copyright (c) 2023 Chen Xingyu <hi@xingrz.me>
+# SPDX-License-Identifier: Apache-2.0
+
+description: WCH CH5xx HCLK clock controller
+
+compatible: "wch,ch5xx-hclk"
+
+include: [clock-controller.yaml, base.yaml]
+
+properties:
+  clocks:
+    required: true
+
+  "#clock-cells":
+    const: 2
+
+clock-cells:
+  - offset
+  - bit

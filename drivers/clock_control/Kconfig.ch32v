@@ -1,6 +1,13 @@
 # Copyright (c) 2023 Chen Xingyu <hi@xingrz.me>
 # SPDX-License-Identifier: Apache-2.0
 
+config CLOCK_CONTROL_CH5XX_HCLK
+	bool "WCH CH5xx HCLK clock controller"
+	default y
+	depends on DT_HAS_WCH_CH5XX_HCLK_ENABLED
+	help
+	  Enable WCH CH5xx HCLK clock controller.
+
 config CLOCK_CONTROL_CH56X_CLKMUX
 	bool "WCH CH56x clock mux controller"
 	default y
