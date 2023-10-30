@@ -49,6 +49,22 @@
 			#gpio-cells = <2>;
 			ngpios = <24>;
 		};
+
+		uart0: uart@40003000 {
+			compatible = "wch,ch5xx-uart";
+			reg = <0x40003000 0x400>;
+			interrupts = <CH58X_INT_UART0>;
+			clocks = <&hclk CH58X_CLOCK_UART0>;
+			status = "disabled";
+		};
+
+		uart1: uart@40003400 {
+			compatible = "wch,ch5xx-uart";
+			reg = <0x40003400 0x400>;
+			interrupts = <CH58X_INT_UART1>;
+			clocks = <&hclk CH58X_CLOCK_UART1>;
+			status = "disabled";
+		};
 	};
 
 	clocks {
