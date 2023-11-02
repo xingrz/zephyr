@@ -5,3 +5,5 @@ family:
     socs:
     - name: ch565
     - name: ch569
+    - name: ch571
+    - name: ch573
