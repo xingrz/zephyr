@@ -1,0 +1,13 @@
+identifier: ch573f_evt
+name: WCH CH573F-EVT
+type: mcu
+arch: riscv32
+toolchain:
+  - zephyr
+supported:
+  - clock-control
+  - gpio
+  - interrupt-controller
+  - pinctrl
+  - serial
+  - timer

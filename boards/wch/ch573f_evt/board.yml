@@ -1,0 +1,5 @@
+board:
+  name: ch573f_evt
+  vendor: wch
+  socs:
+  - name: ch573
