@@ -1,0 +1,50 @@
+/*
+ * Copyright (c) 2023 Chen Xingyu <hi@xingrz.me>
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+#include <mem.h>
+#include <freq.h>
+
+#include <zephyr/dt-bindings/interrupt-controller/ch57x-int.h>
+
+#include <wch/qingke-v3.dtsi>
+
+/ {
+	soc {
+		sram: memory@20003800 {
+			compatible = "mmio-sram";
+			reg = <0x20003800 DT_SIZE_K(16)>;
+		};
+
+		syscon: system-controller@40001000 {
+			reg = <0x40001000 0xa0>;
+		};
+
+		gpioa: gpio@400010a0 {
+			compatible = "wch,ch57x-gpio";
+			reg = <0x400010a0 0x20>;
+			interrupts = <CH57X_INT_GPIO_A>;
+			gpio-controller;
+			#gpio-cells = <2>;
+			ngpios = <16>;
+		};
+
+		gpiob: gpio@400010c0 {
+			compatible = "wch,ch57x-gpio";
+			reg = <0x400010c0 0x20>;
+			interrupts = <CH57X_INT_GPIO_B>;
+			gpio-controller;
+			#gpio-cells = <2>;
+			ngpios = <24>;
+		};
+	};
+
+	clocks {
+		clkmux: clock-mux {
+			compatible = "wch,ch57x-clkmux";
+			clock-frequency = <DT_FREQ_K(6400)>;
+			#clock-cells = <0>;
+		};
+	};
+};

@@ -16,6 +16,8 @@
 
 #if defined(CONFIG_SOC_CH56X)
 #include <syscon_regs_ch56x.h>
+#elif defined(CONFIG_SOC_CH57X)
+#include <syscon_regs_ch57x.h>
 #endif
 
 void ch32v_sys_unlock(void);

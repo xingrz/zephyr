@@ -1,0 +1,14 @@
+# Copyright (c) 2023 Chen Xingyu <hi@xingrz.me>
+# SPDX-License-Identifier: Apache-2.0
+
+config SOC_CH57X
+	bool
+	depends on SOC_SERIES_CH32V_QINGKE_V3A
+
+config SOC_CH571
+	bool "WCH CH571"
+	select SOC_CH57X
+
+config SOC_CH573
+	bool "WCH CH573"
+	select SOC_CH57X
