@@ -6,7 +6,8 @@
 #ifndef ZEPHYR_SOC_RISCV_CH32V_PINCTRL_SOC_H_
 #define ZEPHYR_SOC_RISCV_CH32V_PINCTRL_SOC_H_
 
-#if defined(CONFIG_SOC_CH56X)
+#if defined(CONFIG_SOC_CH56X) || \
+    defined(CONFIG_SOC_CH57X)
 #include <pinctrl_soc_ch5xx.h>
 #endif
 

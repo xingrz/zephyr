@@ -1,0 +1,37 @@
+/*
+ * Copyright (c) 2023 Chen Xingyu <hi@xingrz.me>
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+#include <zephyr/dt-bindings/pinctrl/ch57x-pinctrl.h>
+
+&pinctrl {
+	/omit-if-no-ref/ uart0_remap: uart0_remap {
+		group1 {
+			pinmux = <CH57X_PINMUX_REMAP('A', 14, UART0, REMAP)>, /* TXD0_ */
+				 <CH57X_PINMUX('B', 6)>,  /* RTS */
+				 <CH57X_PINMUX('B', 15)>; /* DTR */
+			output-enable;
+			drive-push-pull;
+		};
+		group2 {
+			pinmux = <CH57X_PINMUX_REMAP('A', 15, UART0, REMAP)>, /* RXD0_ */
+				 <CH57X_PINMUX('B', 0)>,  /* CTS */
+				 <CH57X_PINMUX('B', 14)>; /* DSR */
+			input-enable;
+		};
+	};
+
+	/omit-if-no-ref/ spi0_default: spi0_default {
+		group1 {
+			pinmux = <CH57X_PINMUX_REMAP('A', 13, SPI0, DEFAULT)>, /* SCK0 */
+				 <CH57X_PINMUX_REMAP('A', 14, SPI0, DEFAULT)>; /* MOSI */
+			output-enable;
+			drive-push-pull;
+		};
+		group2 {
+			pinmux = <CH57X_PINMUX_REMAP('A', 15, SPI0, DEFAULT)>; /* MISO */
+			input-enable;
+		};
+	};
+};

@@ -1,0 +1,25 @@
+/*
+ * Copyright (c) 2023 Chen Xingyu <hi@xingrz.me>
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+#include <wch/ch57x/ch57x-common-pinctrl.dtsi>
+#include <wch/ch57x/ch573-common-pinctrl.dtsi>
+
+&pinctrl {
+	/omit-if-no-ref/ pwm6_default: pwm6_default {
+		group1 {
+			pinmux = <CH57X_PINMUX('B', 0)>;  /* PWM6 */
+			output-enable;
+			drive-push-pull;
+		};
+	};
+
+	/omit-if-no-ref/ pwm8_default: pwm8_default {
+		group1 {
+			pinmux = <CH57X_PINMUX('B', 6)>;  /* PWM8 */
+			output-enable;
+			drive-push-pull;
+		};
+	};
+};

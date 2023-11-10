@@ -1,0 +1,51 @@
+/*
+ * Copyright (c) 2023 Chen Xingyu <hi@xingrz.me>
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+#include <wch/ch57x/ch57x-common-pinctrl.dtsi>
+#include <wch/ch57x/ch571-common-pinctrl.dtsi>
+#include <wch/ch57x/ch571(fdr)-common-pinctrl.dtsi>
+#include <wch/ch57x/ch571(fd)-common-pinctrl.dtsi>
+
+&pinctrl {
+	/omit-if-no-ref/ tmr3_capture_default: tmr3_capture_default {
+		group1 {
+			pinmux = <CH57X_PINMUX('B', 22)>; /* TMR3 */
+			input-enable;
+		};
+	};
+
+	/omit-if-no-ref/ tmr3_output_default: tmr3_output_default {
+		group1 {
+			pinmux = <CH57X_PINMUX('B', 22)>; /* TMR3 */
+			output-enable;
+			drive-push-pull;
+		};
+	};
+
+	/omit-if-no-ref/ uart1_remap: uart1_remap {
+		group1 {
+			pinmux = <CH57X_PINMUX_REMAP('B', 13, UART1, REMAP)>; /* TXD1_ */
+			output-enable;
+			drive-push-pull;
+		};
+		group2 {
+			pinmux = <CH57X_PINMUX_REMAP('B', 12, UART1, REMAP)>; /* RXD1_ */
+			input-enable;
+		};
+	};
+
+	/omit-if-no-ref/ spi0_remap: spi0_remap {
+		group1 {
+			pinmux = <CH57X_PINMUX_REMAP('B', 13, SPI0, REMAP)>, /* SCK0_ */
+				 <CH57X_PINMUX_REMAP('B', 14, SPI0, REMAP)>; /* MOSI_ */
+			output-enable;
+			drive-push-pull;
+		};
+		group2 {
+			pinmux = <CH57X_PINMUX_REMAP('B', 15, SPI0, REMAP)>; /* MISO_ */
+			input-enable;
+		};
+	};
+};

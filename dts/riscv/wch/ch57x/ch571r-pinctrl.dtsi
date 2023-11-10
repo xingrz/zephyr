@@ -1,0 +1,25 @@
+/*
+ * Copyright (c) 2023 Chen Xingyu <hi@xingrz.me>
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+#include <wch/ch57x/ch57x-common-pinctrl.dtsi>
+#include <wch/ch57x/ch571-common-pinctrl.dtsi>
+#include <wch/ch57x/ch571(fdr)-common-pinctrl.dtsi>
+
+&pinctrl {
+	/omit-if-no-ref/ tmr3_capture_default: tmr3_capture_default {
+		group1 {
+			pinmux = <CH57X_PINMUX('B', 22)>; /* TMR3 */
+			input-enable;
+		};
+	};
+
+	/omit-if-no-ref/ tmr3_output_default: tmr3_output_default {
+		group1 {
+			pinmux = <CH57X_PINMUX('B', 22)>; /* TMR3 */
+			output-enable;
+			drive-push-pull;
+		};
+	};
+};

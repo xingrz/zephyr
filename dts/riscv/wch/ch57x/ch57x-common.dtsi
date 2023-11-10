@@ -19,6 +19,11 @@
 
 		syscon: system-controller@40001000 {
 			reg = <0x40001000 0xa0>;
+
+			pinctrl: pin-controller {
+				compatible = "wch,ch5xx-pinctrl";
+				gpio-controllers = <&gpioa>, <&gpiob>;
+			};
 		};
 
 		gpioa: gpio@400010a0 {
