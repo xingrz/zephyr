@@ -15,6 +15,18 @@
 
 const struct device *gpio[] = {DT_INST_FOREACH_PROP_ELEM(0, gpio_controllers, GET_GPIO_CONTROLLER)};
 
+#if defined(CH32V_SYS_R16_PIN_ALTERNATE_REG)
+#define PIN_ALTERNATE_REG  CH32V_SYS_R16_PIN_ALTERNATE_REG
+#define PIN_ALTERNATE_BITS 16
+#define READ_REG           sys_read16
+#define WRITE_REG          sys_write16
+#elif defined(CH32V_SYS_R8_PIN_ALTERNATE_REG)
+#define PIN_ALTERNATE_REG  CH32V_SYS_R8_PIN_ALTERNATE_REG
+#define PIN_ALTERNATE_BITS 8
+#define READ_REG           sys_read8
+#define WRITE_REG          sys_write8
+#endif
+
 static void pinctrl_configure_pin(const pinctrl_soc_pin_t *pin)
 {
 	uint32_t regval;
@@ -23,14 +35,18 @@ static void pinctrl_configure_pin(const pinctrl_soc_pin_t *pin)
 		return;
 	}
 
+	if (pin->remap_bit >= PIN_ALTERNATE_BITS) {
+		return;
+	}
+
 	if (pin->remap_bit) {
-		regval = sys_read8(CH32V_SYS_R8_PIN_ALTERNATE_REG);
+		regval = READ_REG(PIN_ALTERNATE_REG);
 		if (pin->remap_en) {
 			regval |= BIT(pin->remap_bit);
 		} else {
 			regval &= ~BIT(pin->remap_bit);
 		}
-		sys_write8(regval, CH32V_SYS_R8_PIN_ALTERNATE_REG);
+		WRITE_REG(regval, PIN_ALTERNATE_REG);
 	}
 
 	gpio_pin_configure(gpio[pin->port], pin->pin, pin->flags);
