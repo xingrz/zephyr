@@ -20,6 +20,8 @@
 #include <syscon_regs_ch57x.h>
 #elif defined(CONFIG_SOC_CH58X)
 #include <syscon_regs_ch58x.h>
+#elif defined(CONFIG_SOC_CH59X)
+#include <syscon_regs_ch59x.h>
 #endif
 
 void ch32v_sys_unlock(void);

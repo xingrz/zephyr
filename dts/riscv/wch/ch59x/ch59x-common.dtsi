@@ -1,0 +1,71 @@
+/*
+ * Copyright (c) 2023 Chen Xingyu <hi@xingrz.me>
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+#include <mem.h>
+#include <freq.h>
+
+#include <zephyr/dt-bindings/interrupt-controller/ch59x-int.h>
+
+#include <wch/qingke-v4.dtsi>
+
+/ {
+	soc {
+		flash: flash@0 {
+			compatible = "soc-nv-flash";
+			reg = <0x00000000 DT_SIZE_K(448)>;
+		};
+
+		sram: memory@20000000 {
+			compatible = "mmio-sram";
+			reg = <0x20000000 DT_SIZE_K(24)>;
+		};
+
+		syscon: system-controller@40001000 {
+			reg = <0x40001000 0xa0>;
+		};
+
+		gpioa: gpio@400010a0 {
+			compatible = "wch,ch57x-gpio";
+			reg = <0x400010a0 0x20>;
+			interrupts = <17 3>;
+			gpio-controller;
+			#gpio-cells = <2>;
+			ngpios = <16>;
+		};
+
+		gpiob: gpio@400010c0 {
+			compatible = "wch,ch57x-gpio";
+			reg = <0x400010c0 0x20>;
+			interrupts = <18 4>;
+			gpio-controller;
+			#gpio-cells = <2>;
+			ngpios = <24>;
+		};
+
+		uart0: uart@40003000 {
+			compatible = "wch,ch5xx-uart";
+			reg = <0x40003000 0x400>;
+			interrupts = <26 11>;
+			clocks = <&hclk CH59X_CLOCK_UART0>;
+			status = "disabled";
+		};
+
+		uart1: uart@40003400 {
+			compatible = "wch,ch5xx-uart";
+			reg = <0x40003400 0x400>;
+			interrupts = <27 12>;
+			clocks = <&hclk CH59X_CLOCK_UART1>;
+			status = "disabled";
+		};
+	};
+
+	clocks {
+		clkmux: clock-mux {
+			compatible = "wch,ch59x-clkmux";
+			clock-frequency = <DT_FREQ_K(6400)>;
+			#clock-cells = <0>;
+		};
+	};
+};
