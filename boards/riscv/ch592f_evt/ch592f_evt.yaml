@@ -1,0 +1,11 @@
+identifier: ch592f_evt
+name: WCH CH592F-EVT
+type: mcu
+arch: riscv32
+toolchain:
+  - zephyr
+supported:
+  - clock
+  - gpio
+  - interrupt-controller
+  - timer

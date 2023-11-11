@@ -1,0 +1,38 @@
+/*
+ * Copyright (c) 2023 Chen Xingyu <hi@xingrz.me>
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+/dts-v1/;
+
+#include <zephyr/dt-bindings/gpio/gpio.h>
+#include <wch/ch59x/ch592f.dtsi>
+
+/ {
+	model = "WCH CH592F-EVT";
+	compatible = "wch,ch592f-evt";
+
+	aliases {
+		led0 = &led_0;
+		led1 = &led_1;
+	};
+
+	chosen {
+		zephyr,sram = &sram;
+		zephyr,flash = &flash;
+	};
+
+	leds {
+		compatible = "gpio-leds";
+
+		led_0: led-0 {
+			gpios = <&gpioa 9 GPIO_ACTIVE_LOW>;
+			label = "LED0";
+		};
+
+		led_1: led-1 {
+			gpios = <&gpiob 15 GPIO_ACTIVE_LOW>;
+			label = "LED1";
+		};
+	};
+};
