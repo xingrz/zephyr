@@ -8,7 +8,8 @@
 
 #if defined(CONFIG_SOC_CH56X) || \
     defined(CONFIG_SOC_CH57X) || \
-    defined(CONFIG_SOC_CH58X)
+    defined(CONFIG_SOC_CH58X) || \
+    defined(CONFIG_SOC_CH59X)
 #include <pinctrl_soc_ch5xx.h>
 #endif
 
