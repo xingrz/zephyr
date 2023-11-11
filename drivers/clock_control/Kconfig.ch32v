@@ -21,3 +21,10 @@ config CLOCK_CONTROL_CH57X_CLKMUX
 	depends on DT_HAS_WCH_CH57X_CLKMUX_ENABLED
 	help
 	  Enable WCH CH57x clock mux controller.
+
+config CLOCK_CONTROL_CH59X_CLKMUX
+	bool "WCH CH59x clock mux controller"
+	default y
+	depends on DT_HAS_WCH_CH59X_CLKMUX_ENABLED
+	help
+	  Enable WCH CH59x clock mux controller.
