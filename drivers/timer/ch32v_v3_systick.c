@@ -32,24 +32,50 @@ static volatile uint64_t announced_ticks;
 
 static void sys_clock_isr(const void *arg)
 {
+	uint64_t ticks;
+
 	ARG_UNUSED(arg);
 
 	/* Clear interrupt */
 	sys_write32(0, STK_R32_CNTFG);
 
-	announced_ticks++;
-	sys_clock_announce(1);
+#if defined(CONFIG_TICKLESS_KERNEL)
+	ticks = sys_read64(STK_R64_CMPR) / CYCLES_PER_TICK;
+	sys_write32(0, STK_R32_CTLR);
+#else  /* CONFIG_TICKLESS_KERNEL */
+	ticks = 1;
+#endif /* CONFIG_TICKLESS_KERNEL */
+
+	announced_ticks += ticks;
+	sys_clock_announce(ticks);
 }
 
 void sys_clock_set_timeout(int32_t ticks, bool idle)
 {
+#if defined(CONFIG_TICKLESS_KERNEL)
+	ARG_UNUSED(idle);
+
+	/* Cancel existing alarm */
+	sys_write32(0, STK_R32_CTLR);
+	sys_write32(0, STK_R32_CNTFG);
+
+	/* Set new alarm */
+	sys_write64(ticks * CYCLES_PER_TICK, STK_R64_CMPR);
+	sys_write32(CTLR_STE | CTLR_STIE | CTLR_STCLK | CTLR_RELOAD, STK_R32_CTLR);
+#else  /* CONFIG_TICKLESS_KERNEL */
 	ARG_UNUSED(ticks);
 	ARG_UNUSED(idle);
+#endif /* CONFIG_TICKLESS_KERNEL */
 }
 
 uint32_t sys_clock_elapsed(void)
 {
+#if defined(CONFIG_TICKLESS_KERNEL)
+	return ((sys_read64(STK_R64_CMPR) - sys_read64(STK_R64_CNT)) / CYCLES_PER_TICK) &
+	       UINT32_MAX;
+#else  /* CONFIG_TICKLESS_KERNEL */
 	return 0;
+#endif /* CONFIG_TICKLESS_KERNEL */
 }
 
 uint32_t sys_clock_cycle_get_32(void)
@@ -68,8 +94,10 @@ static int sys_clock_init(void)
 	IRQ_CONNECT(DT_INST_IRQN(0), DT_INST_IRQ(0, priority), sys_clock_isr, NULL, 0);
 	irq_enable(DT_INST_IRQN(0));
 
+#if !defined(CONFIG_TICKLESS_KERNEL)
 	sys_write64(CYCLES_PER_TICK, STK_R64_CMPR);
 	sys_write32(CTLR_STE | CTLR_STIE | CTLR_STCLK | CTLR_RELOAD, STK_R32_CTLR);
+#endif /* CONFIG_TICKLESS_KERNEL */
 
 	return 0;
 }
