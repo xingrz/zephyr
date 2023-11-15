@@ -179,6 +179,18 @@ BUILD_ASSERT(IS_ENABLED(CONFIG_PCIE), "NS16550(s) in DT need CONFIG_PCIE");
  */
 #define FCR_FIFO_64 0x20 /* Enable 64 bytes FIFO */
 
+/* Flags for LISTENAI CSK6 UART module */
+
+#define FCR_TFIFO_TRGL0 0x00 /* TX FIFO int trigger level - Empty */
+#define FCR_TFIFO_TRGL1 0x10 /* TX FIFO int trigger level - 2 char */
+#define FCR_TFIFO_TRGL2 0x20 /* TX FIFO int trigger level - 1/4 full */
+#define FCR_TFIFO_TRGL3 0x30 /* TX FIFO int trigger level - 1/2 full */
+
+#define FCR_RFIFO_TRGL0 0x00 /* RX FIFO int trigger level - 1 char */
+#define FCR_RFIFO_TRGL1 0x40 /* RX FIFO int trigger level - 1/4 full */
+#define FCR_RFIFO_TRGL2 0x80 /* RX FIFO int trigger level - 1/2 full */
+#define FCR_RFIFO_TRGL3 0xC0 /* RX FIFO int trigger level - 2 less than full */
+
 /* constants for line control register */
 
 #define LCR_CS5 0x00   /* 5 bits data size */
@@ -556,10 +568,16 @@ static int uart_ns16550_configure(const struct device *dev,
 	 * Clear TX and RX FIFO
 	 */
 	ns16550_outbyte(dev_cfg, FCR(dev),
+#ifdef CONFIG_UART_NS16550_LISTENAI_CSK6
+			FCR_FIFO | FCR_RCVRCLR | FCR_XMITCLR
+			| FCR_RFIFO_TRGL1
+			| FCR_TFIFO_TRGL2
+#else  /* CONFIG_UART_NS16550_LISTENAI_CSK6 */
 			FCR_FIFO | FCR_MODE0 | FCR_FIFO_8 | FCR_RCVRCLR | FCR_XMITCLR
 #ifdef CONFIG_UART_NS16550_VARIANT_NS16750
 			| FCR_FIFO_64
 #endif
+#endif /* CONFIG_UART_NS16550_LISTENAI_CSK6 */
 			);
 
 	if ((ns16550_inbyte(dev_cfg, IIR(dev)) & IIR_FE) == IIR_FE) {
