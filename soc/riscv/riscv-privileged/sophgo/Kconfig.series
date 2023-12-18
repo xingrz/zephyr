@@ -1,0 +1,9 @@
+# Copyright (c) 2023-2024 Chen Xingyu <hi@xingrz.me>
+# SPDX-License-Identifier: Apache-2.0
+
+config SOC_SERIES_SOPHGO
+	bool "SOPHGO RISC-V series"
+	select RISCV
+	select SOC_FAMILY_RISCV_PRIVILEGED
+	select INCLUDE_RESET_VECTOR
+	select ATOMIC_OPERATIONS_C
