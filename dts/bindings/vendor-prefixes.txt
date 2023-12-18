@@ -581,6 +581,7 @@ socionext	Socionext Inc.
 solidrun	SolidRun
 solomon	Solomon Systech Limited
 sony	Sony Corporation
+sophgo	SOPHGO Technologies
 spansion	Spansion Inc.
 sparkfun	SparkFun Electronics
 sprd	Spreadtrum Communications Inc.
