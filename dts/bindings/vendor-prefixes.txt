@@ -387,6 +387,7 @@ microcrystal	Micro Crystal AG
 micron	Micron Technology Inc.
 microsoft	Microsoft Corporation
 microsys	MicroSys Electronics GmbH
+milkv	Shenzhen MilkV Technology Co., Ltd
 mikroe	MikroElektronika d.o.o.
 mikrotik	MikroTik
 miniand	Miniand Tech
