@@ -1,0 +1,9 @@
+# Copyright (c) 2023-2024 Chen Xingyu <hi@xingrz.me>
+# SPDX-License-Identifier: Apache-2.0
+
+if BOARD_MILKV_DUO
+
+config BOARD
+	default "milkv_duo"
+
+endif # BOARD_MILKV_DUO
