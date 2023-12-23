@@ -95,7 +95,7 @@ static uintptr_t get_hart_mtimecmp(void)
 
 static void set_mtimecmp(uint64_t time)
 {
-#ifdef CONFIG_64BIT
+#if defined(CONFIG_64BIT) && !defined(CONFIG_SOC_CV180X)
 	*(volatile uint64_t *)get_hart_mtimecmp() = time;
 #else
 	volatile uint32_t *r = (uint32_t *)get_hart_mtimecmp();
@@ -122,7 +122,13 @@ static void set_divider(void)
 
 static uint64_t mtime(void)
 {
-#ifdef CONFIG_64BIT
+#if defined(CONFIG_SOC_CV180X)
+	uint64_t mtime;
+
+	__asm__ volatile ("rdtime %0" : "=r" (mtime));
+
+	return mtime;
+#elif defined(CONFIG_64BIT)
 	return *(volatile uint64_t *)MTIME_REG;
 #else
 	volatile uint32_t *r = (uint32_t *)MTIME_REG;
