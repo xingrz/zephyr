@@ -6,6 +6,8 @@
 #include <mem.h>
 #include <freq.h>
 
+#include <zephyr/dt-bindings/pinctrl/sophgo-cv180x-pinctrl.h>
+
 / {
 	cpus {
 		#address-cells = <1>;
@@ -31,6 +33,11 @@
 		compatible = "simple-bus";
 		#address-cells = <1>;
 		#size-cells = <1>;
+
+		pinctrl: pin-controller@3001000 {
+			compatible = "sophgo,cv180x-pinctrl";
+			reg = <0x3001000 DT_SIZE_K(4)>;
+		};
 
 		gpioa: gpio@3020000 {
 			compatible = "snps,designware-gpio";

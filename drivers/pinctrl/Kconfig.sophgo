@@ -1,0 +1,9 @@
+# Copyright (c) 2023-2024 Chen Xingyu <hi@xingrz.me>
+# SPDX-License-Identifier: Apache-2.0
+
+config PINCTRL_SOPHGO_CV180X
+	bool "SOPHGO CV180x pin controller driver"
+	default y
+	depends on DT_HAS_SOPHGO_CV180X_PINCTRL_ENABLED
+	help
+	  Enables support for the SOPHGO CV180x pin controller.

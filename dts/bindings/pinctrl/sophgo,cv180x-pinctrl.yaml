@@ -1,0 +1,17 @@
+# Copyright (c) 2023-2024Z Chen Xingyu <hi@xingrz.me>
+# SPDX-License-Identifier: Apache-2.0
+
+description: SOPHGO CV180x pin controller driver
+
+compatible: "sophgo,cv180x-pinctrl"
+
+include: base.yaml
+
+child-binding:
+  description: CV180x pinmux group
+
+  child-binding:
+    properties:
+      pinmux:
+        required: true
+        type: array
