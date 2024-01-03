@@ -615,6 +615,7 @@ tempo	Tempo Semiconductor
 techstar	Shenzhen Techstar Electronics Co., Ltd.
 terasic	Terasic Inc.
 tfc	Three Five Corp
+thead	T-Head Semiconductor Co., Ltd.
 thine	THine Electronics, Inc.
 thingyjp	thingy.jp
 ti	Texas Instruments
