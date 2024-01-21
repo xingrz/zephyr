@@ -137,10 +137,17 @@ static inline const struct device *get_plic_dev_from_irq(uint32_t irq)
  */
 static int riscv_plic_is_edge_irq(const struct device *dev, uint32_t local_irq)
 {
+#ifdef CONFIG_PLIC_HAS_EDGE_TRIGGER
 	const struct plic_config *config = dev->config;
 	mem_addr_t trig_addr = config->trig + local_irq_to_reg_offset(local_irq);
 
 	return sys_read32(trig_addr) & BIT(local_irq & PLIC_REG_MASK);
+#else
+	ARG_UNUSED(dev);
+	ARG_UNUSED(local_irq);
+
+	return 0;
+#endif
 }
 
 static void plic_irq_enable_set_state(uint32_t irq, bool enable)

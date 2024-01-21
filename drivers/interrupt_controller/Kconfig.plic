@@ -13,6 +13,12 @@ config PLIC
 
 if PLIC
 
+config PLIC_HAS_EDGE_TRIGGER
+	bool "PLIC supports edge-triggered interrupts"
+	default y
+	help
+	  Claims that the PLIC supports edge-triggered interrupts.
+
 config PLIC_SHELL
 	bool "PLIC shell commands"
 	depends on SHELL
