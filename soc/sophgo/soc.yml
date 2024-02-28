@@ -1,0 +1,6 @@
+family:
+- name: sophgo
+  series:
+  - name: cv180x
+    socs:
+    - name: cv1800b
