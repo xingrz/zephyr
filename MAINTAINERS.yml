@@ -3205,6 +3205,24 @@ SiLabs Platforms:
   labels:
     - "platform: SiLabs"
 
+SOPHGO Platforms:
+  status: maintained
+  maintainers:
+    - xingrz
+  collaborators:
+    - lenghonglin
+  files:
+    - boards/milkv/duo/
+    - boards/milkv/duo256m/
+    - boards/milkv/duos/
+    - dts/riscv/sophgo/
+    - dts/bindings/*/sophgo,*
+    - drivers/*/*.sophgo
+    - drivers/*/*_sophgo_*.c
+    - soc/sophgo/
+  labels:
+    - "platform: SOPHGO"
+
 Intel Platforms (X86):
   status: maintained
   maintainers:
