@@ -7,6 +7,7 @@
 #include <freq.h>
 
 #include <sophgo/cv18xx-c906-common.dtsi>
+#include <zephyr/dt-bindings/pinctrl/sophgo-cv181x-pinctrl.h>
 
 / {
 	soc {
