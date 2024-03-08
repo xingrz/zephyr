@@ -2,3 +2,7 @@ series:
 - name: cv180x
   socs:
   - name: cv1800b
+- name: cv181x
+  socs:
+  - name: sg2000
+  - name: sg2002
