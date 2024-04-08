@@ -1,0 +1,14 @@
+identifier: licheerv_nano
+name: Sipeed LicheeRV Nano
+type: mcu
+arch: riscv
+toolchain:
+  - zephyr
+supported:
+  - clock
+  - gpio
+  - interrupt-controller
+  - mailbox
+  - pinctrl
+  - pwm
+  - serial

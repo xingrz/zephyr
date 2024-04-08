@@ -1,0 +1,5 @@
+board:
+  name: licheerv_nano
+  vendor: sipeed
+  socs:
+  - name: sg2002

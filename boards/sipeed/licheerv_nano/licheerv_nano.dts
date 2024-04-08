@@ -1,0 +1,70 @@
+/*
+ * Copyright (c) 2024 Chen Xingyu <hi@xingrz.me>
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+/dts-v1/;
+
+#include <sophgo/cv181x.dtsi>
+#include <zephyr/dt-bindings/gpio/gpio.h>
+
+#include "licheerv_nano-pinctrl.dtsi"
+
+/ {
+	model = "Sipeed LicheeRV Nano";
+	compatible = "sipeed,licheerv_nano";
+
+	chosen {
+		zephyr,sram = &sram;
+		zephyr,console = &uart3;
+		zephyr,shell-uart = &uart3;
+	};
+
+	aliases {
+		led0 = &led;
+		sw0 = &key;
+	};
+
+	leds {
+		compatible = "gpio-leds";
+
+		led: led {
+			gpios = <&gpioa 14 GPIO_ACTIVE_HIGH>;
+		};
+	};
+
+	keys {
+		compatible = "gpio-keys";
+
+		key: key {
+			label = "BOOT";
+			gpios = <&gpioa 30 GPIO_ACTIVE_LOW>;
+		};
+	};
+
+	soc {
+		/*
+		 * Memory region reserved for the RTOS core.
+		 *
+		 * Keep in sync with FREERTOS_ADDR and FREERTOS_SIZE in
+		 * build/boards/sg200x/sg2002_licheervnano_sd/memmap.py
+		 *
+		 * see: https://github.com/sipeed/LicheeRV-Nano-Build/tree/main
+		 */
+		sram: memory@8fe00000 {
+			compatible = "mmio-sram";
+			reg = <0x8fe00000 DT_SIZE_M(2)>;
+		};
+	};
+};
+
+&gpioa {
+	status = "okay";
+};
+
+&uart3 {
+	status = "okay";
+	pinctrl-0 = <&uart3_default>;
+	pinctrl-names = "default";
+	current-speed = <115200>;
+};
