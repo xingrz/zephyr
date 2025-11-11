@@ -1,0 +1,85 @@
+/*
+ * Copyright (c) 2025 Chen Xingyu <hi@xingrz.me>
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+#include <zephyr/dt-bindings/input/input-event-codes.h>
+#include <zephyr/dt-bindings/led/led.h>
+
+/ {
+	aliases {
+		led-strip = &bytebutton_led_strip;
+	};
+};
+
+&zephyr_i2c {
+	unit-bytebutton@47 {
+		compatible = "m5stack,unit-bytebutton";
+		reg = <0x47>;
+		status = "okay";
+
+		bytebutton_input: unit-bytebutton-input {
+			compatible = "m5stack,unit-bytebutton-input";
+			status = "okay";
+			#address-cells = <1>;
+			#size-cells = <0>;
+
+			button_0@0 {
+				reg = <0>;
+				label = "BYTEBUTTON_0";
+				zephyr,code = <INPUT_KEY_0>;
+			};
+
+			button_1@1 {
+				reg = <1>;
+				label = "BYTEBUTTON_1";
+				zephyr,code = <INPUT_KEY_1>;
+			};
+
+			button_2@2 {
+				reg = <2>;
+				label = "BYTEBUTTON_2";
+				zephyr,code = <INPUT_KEY_2>;
+			};
+
+			button_3@3 {
+				reg = <3>;
+				label = "BYTEBUTTON_3";
+				zephyr,code = <INPUT_KEY_3>;
+			};
+
+			button_4@4 {
+				reg = <4>;
+				label = "BYTEBUTTON_4";
+				zephyr,code = <INPUT_KEY_4>;
+			};
+
+			button_5@5 {
+				reg = <5>;
+				label = "BYTEBUTTON_5";
+				zephyr,code = <INPUT_KEY_5>;
+			};
+
+			button_6@6 {
+				reg = <6>;
+				label = "BYTEBUTTON_6";
+				zephyr,code = <INPUT_KEY_6>;
+			};
+
+			button_7@7 {
+				reg = <7>;
+				label = "BYTEBUTTON_7";
+				zephyr,code = <INPUT_KEY_7>;
+			};
+		};
+
+		bytebutton_led_strip: unit-bytebutton-led-strip {
+			compatible = "m5stack,unit-bytebutton-led-strip";
+			status = "okay";
+			chain-length = <9>;
+			color-mapping = <LED_COLOR_ID_BLUE
+					 LED_COLOR_ID_GREEN
+					 LED_COLOR_ID_RED>;
+		};
+	};
+};
