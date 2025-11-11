@@ -1,0 +1,7 @@
+shield:
+  name: m5stack_unit_bytebutton
+  full_name: M5Stack Unit ByteButton shield
+  vendor: m5stack
+  supported_features:
+    - input
+    - led_strip
