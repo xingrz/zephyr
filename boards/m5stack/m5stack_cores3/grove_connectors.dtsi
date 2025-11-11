@@ -6,6 +6,7 @@
 / {
 	grove_header: grove_header {
 		compatible = "grove-header";
+		vin-supply = <&bus_5v>;
 		#gpio-cells = <2>;
 		gpio-map-mask = <0xffffffff 0xffffffc0>;
 		gpio-map-pass-thru = <0 0x3f>;
