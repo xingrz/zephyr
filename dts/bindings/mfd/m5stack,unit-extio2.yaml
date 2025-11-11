@@ -1,0 +1,14 @@
+# Copyright (c) 2025 Chen Xingyu <hi@xingrz.me>
+# SPDX-License-Identifier: Apache-2.0
+
+description: M5Stack Unit EXT.IO2
+
+compatible: m5stack,unit-extio2
+
+include: i2c-device.yaml
+
+bus: unit-extio2
+
+properties:
+  reg:
+    required: true

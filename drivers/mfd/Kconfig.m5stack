@@ -10,6 +10,14 @@ config MFD_M5STACK_UNIT_BYTEBUTTON
 	help
 	  Enable the M5Stack Unit ByteButton/Switch multi-function device driver
 
+config MFD_M5STACK_UNIT_EXTIO2
+	bool "M5Stack Unit EXT.IO2 multi-function device driver"
+	default y
+	depends on DT_HAS_M5STACK_UNIT_EXTIO2_ENABLED
+	select I2C
+	help
+	  Enable the M5Stack Unit EXT.IO2 multi-function device driver
+
 config MFD_M5STACK_INIT_PRIORITY
 	int "Initialization priority for M5Stack extension MFDs"
 	default 90
