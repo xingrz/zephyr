@@ -1,0 +1,19 @@
+/*
+ * Copyright (c) 2025 Chen Xingyu <hi@xingrz.me>
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+&zephyr_i2c {
+	unit-extio2@45 {
+		compatible = "m5stack,unit-extio2";
+		reg = <0x45>;
+		status = "okay";
+
+		extio2_gpio: unit-extio2-gpio {
+			compatible = "m5stack,unit-extio2-gpio";
+			status = "okay";
+			gpio-controller;
+			#gpio-cells = <2>;
+		};
+	};
+};
