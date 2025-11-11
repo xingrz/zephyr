@@ -14,4 +14,4 @@ description: |
 
 compatible: "grove-header"
 
-include: [gpio-nexus.yaml, base.yaml]
+include: [gpio-nexus.yaml, power.yaml, base.yaml]
