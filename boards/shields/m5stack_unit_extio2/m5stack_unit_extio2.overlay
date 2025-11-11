@@ -1,0 +1,27 @@
+/*
+ * Copyright (c) 2025 Chen Xingyu <hi@xingrz.me>
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+&zephyr_i2c {
+	unit-extio2@45 {
+		compatible = "m5stack,unit-extio2", "m5stack,grove-porta";
+		reg = <0x45>;
+		#address-cells = <1>;
+		#size-cells = <1>;
+		status = "okay";
+
+		extio2_gpio: unit-extio2-gpio@00 {
+			compatible = "m5stack,unit-extio2-gpio", "m5stack,expansion-gpio";
+			reg = <0x00 8>,
+			      <0x10 8>,
+			      <0x20 8>;
+			reg-names = "mode",
+				    "output",
+				    "input";
+			status = "okay";
+			gpio-controller;
+			#gpio-cells = <2>;
+		};
+	};
+};

@@ -1,0 +1,6 @@
+shield:
+  name: m5stack_unit_extio2
+  full_name: M5Stack Unit EXT.IO2 shield
+  vendor: m5stack
+  supported_features:
+    - gpio
