@@ -1,0 +1,86 @@
+/*
+ * Copyright (c) 2025 Chen Xingyu <hi@xingrz.me>
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+#include <zephyr/dt-bindings/input/input-event-codes.h>
+#include <zephyr/dt-bindings/led/led.h>
+
+/ {
+	aliases {
+		led-strip = &byteswitch_rgb;
+	};
+};
+
+&zephyr_i2c {
+	unit-byteswitch@46 {
+		compatible = "m5stack,unit-byteswitch", "m5stack,grove-porta";
+		reg = <0x46>;
+		#address-cells = <1>;
+		#size-cells = <1>;
+		status = "okay";
+
+		unit-byteswitch-switch@60 {
+			compatible = "m5stack,unit-byteswitch-switch", "m5stack,expansion-key-input";
+			reg = <0x60 8>;
+			#address-cells = <1>;
+			#size-cells = <0>;
+			status = "okay";
+
+			switch_0@0 {
+				reg = <0>;
+				zephyr,code = <INPUT_KEY_0>;
+			};
+
+			switch_1@1 {
+				reg = <1>;
+				zephyr,code = <INPUT_KEY_1>;
+			};
+
+			switch_2@2 {
+				reg = <2>;
+				zephyr,code = <INPUT_KEY_2>;
+			};
+
+			switch_3@3 {
+				reg = <3>;
+				zephyr,code = <INPUT_KEY_3>;
+			};
+
+			switch_4@4 {
+				reg = <4>;
+				zephyr,code = <INPUT_KEY_4>;
+			};
+
+			switch_5@5 {
+				reg = <5>;
+				zephyr,code = <INPUT_KEY_5>;
+			};
+
+			switch_6@6 {
+				reg = <6>;
+				zephyr,code = <INPUT_KEY_6>;
+			};
+
+			switch_7@7 {
+				reg = <7>;
+				zephyr,code = <INPUT_KEY_7>;
+			};
+		};
+
+		byteswitch_rgb: unit-byteswitch-rgb@10 {
+			compatible = "m5stack,unit-byteswitch-rgb", "m5stack,expansion-led-strip";
+			reg = <0x10 9>,
+			      <0x20 36>;
+			reg-names = "brightness",
+				    "pixels";
+			status = "okay";
+			chain-length = <9>;
+			pixel-stride = <4>;
+			pixel-offset = <0>;
+			color-mapping = <LED_COLOR_ID_BLUE
+					 LED_COLOR_ID_GREEN
+					 LED_COLOR_ID_RED>;
+		};
+	};
+};
