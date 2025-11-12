@@ -1,0 +1,14 @@
+# Copyright (c) 2025 Chen Xingyu <hi@xingrz.me>
+# SPDX-License-Identifier: Apache-2.0
+
+description: M5Stack Unit ByteButton LED strip
+
+compatible: m5stack,unit-bytebutton-led-strip
+
+include: led-strip.yaml
+
+on-bus: unit-bytebutton
+
+properties:
+  chain-length:
+    const: 9

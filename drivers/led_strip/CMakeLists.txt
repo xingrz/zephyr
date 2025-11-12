@@ -12,3 +12,4 @@ zephyr_library_sources_ifdef(CONFIG_WS2812_STRIP_RPI_PICO_PIO	ws2812_rpi_pico_pi
 zephyr_library_sources_ifdef(CONFIG_TLC5971_STRIP       tlc5971.c)
 zephyr_library_sources_ifdef(CONFIG_TLC59731_STRIP      tlc59731.c)
 zephyr_library_sources_ifdef(CONFIG_MODULINO_PIXELS     modulino_pixels.c)
+zephyr_library_sources_ifdef(CONFIG_LED_STRIP_M5STACK_UNIT_BYTEBUTTON m5stack_unit_bytebutton.c)
