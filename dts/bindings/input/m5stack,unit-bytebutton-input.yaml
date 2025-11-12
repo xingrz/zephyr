@@ -1,0 +1,39 @@
+# Copyright (c) 2025 Chen Xingyu <hi@xingrz.me>
+# SPDX-License-Identifier: Apache-2.0
+
+description: M5Stack Unit ByteButton input
+
+compatible: m5stack,unit-bytebutton-input
+
+include: base.yaml
+
+on-bus: unit-bytebutton
+
+properties:
+  "#address-cells":
+    const: 1
+  "#size-cells":
+    const: 0
+
+  poll-interval-ms:
+    type: int
+    default: 100
+    description: |
+      Polling interval in milliseconds. If not specified defaults to 100.
+
+child-binding:
+  description: Input button configuration
+  properties:
+    reg:
+      type: int
+      required: true
+      description: Button index starting from 0
+
+    label:
+      type: string
+      description: Descriptive name of the key
+
+    zephyr,code:
+      type: int
+      required: true
+      description: Key code as defined in input-event-codes.h
