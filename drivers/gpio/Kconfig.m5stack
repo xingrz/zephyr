@@ -1,0 +1,19 @@
+# Copyright (c) 2025 Chen Xingyu <hi@xingrz.me>
+# SPDX-License-Identifier: Apache-2.0
+
+config GPIO_M5STACK_UNIT_EXTIO2
+	bool "M5Stack Unit EXT.IO2 GPIO driver"
+	default y
+	depends on DT_HAS_M5STACK_UNIT_EXTIO2_ENABLED && DT_HAS_M5STACK_UNIT_EXTIO2_GPIO_ENABLED
+	select I2C
+	help
+	  Enable the M5Stack Unit EXT.IO2 GPIO driver
+
+config GPIO_M5STACK_INIT_PRIORITY
+	int "Initialization priority for M5Stack GPIO drivers"
+	default 92
+	help
+	  Initialization priority for M5Stack GPIO device drivers.
+
+	  This priority must be higher than that of the M5Stack extension MFDs
+	  to ensure proper initialization ordering.

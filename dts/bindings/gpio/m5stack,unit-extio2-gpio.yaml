@@ -1,0 +1,18 @@
+# Copyright (c) 2025 Chen Xingyu <hi@xingrz.me>
+# SPDX-License-Identifier: Apache-2.0
+
+description: M5Stack Unit EXT.IO2 GPIO
+
+compatible: m5stack,unit-extio2-gpio
+
+include: [gpio-controller.yaml, base.yaml]
+
+on-bus: unit-extio2
+
+properties:
+  "#gpio-cells":
+    const: 2
+
+gpio-cells:
+  - pin
+  - flags
