@@ -1,0 +1,16 @@
+/*
+ * Copyright (c) 2025 Chen Xingyu <hi@xingrz.me>
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+#ifndef ZEPHYR_INCLUDE_DT_BINDINGS_GPIO_GPIO_UART_LINE_CONTROL_H_
+#define ZEPHYR_INCLUDE_DT_BINDINGS_GPIO_GPIO_UART_LINE_CONTROL_H_
+
+#define UART_LINE_DTR 0
+#define UART_LINE_RTS 1
+#define UART_LINE_CTS 2
+#define UART_LINE_DCD 3
+#define UART_LINE_RI  4
+#define UART_LINE_DSR 5
+
+#endif /* ZEPHYR_INCLUDE_DT_BINDINGS_GPIO_GPIO_UART_LINE_CONTROL_H_ */

@@ -1,0 +1,32 @@
+# Copyright (c) 2025 Chen Xingyu <hi@xingrz.me>
+# SPDX-License-Identifier: Apache-2.0
+
+description: |
+  USB UART control lines as GPIOs
+
+  This driver exposes the control lines of a USB UART device as GPIOs.
+
+  Example usage:
+
+      &zephyr_udc0 {
+      	cdc_acm_uart0 {
+      		compatible = "zephyr,cdc-acm-uart";
+
+      		gpio_uart: gpio-uart-line-control {
+      			compatible = "zephyr,gpio-uart-line-control";
+      		};
+      	};
+      };
+
+compatible: "zephyr,gpio-uart-line-control"
+
+include: [gpio-controller.yaml, base.yaml]
+
+on-bus: uart
+
+properties:
+  "#gpio-cells":
+    const: 1
+
+gpio-cells:
+  - pin
