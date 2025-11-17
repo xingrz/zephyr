@@ -10,14 +10,17 @@
 #include <string.h>
 #include <zephyr/device.h>
 #include <zephyr/drivers/uart.h>
+#include <zephyr/drivers/gpio.h>
 #include <zephyr/kernel.h>
 #include <zephyr/sys/ring_buffer.h>
+#include <zephyr/dt-bindings/gpio/gpio-uart-line-control.h>
 
 #include <zephyr/usb/usbd.h>
 #include <zephyr/logging/log.h>
 LOG_MODULE_REGISTER(cdc_acm_echo, LOG_LEVEL_INF);
 
 const struct device *const uart_dev = DEVICE_DT_GET_ONE(zephyr_cdc_acm_uart);
+const struct device *const gpio_dev = DEVICE_DT_GET(DT_NODELABEL(gpio_uart));
 
 #define RING_BUF_SIZE 1024
 uint8_t ring_buffer[RING_BUF_SIZE];
@@ -196,6 +199,17 @@ int main(void)
 	uart_irq_callback_set(uart_dev, interrupt_handler);
 	/* Enable rx interrupts */
 	uart_irq_rx_enable(uart_dev);
+
+	gpio_pin_configure(gpio_dev, UART_LINE_RTS, GPIO_INPUT);
+	gpio_pin_configure(gpio_dev, UART_LINE_DTR, GPIO_INPUT);
+
+	int rts, dtr;
+	for (;;) {
+		rts = gpio_pin_get(gpio_dev, UART_LINE_RTS);
+		dtr = gpio_pin_get(gpio_dev, UART_LINE_DTR);
+		printk("RTS=%d DTR=%d\n", rts, dtr);
+		k_msleep(1000);
+	}
 
 	return 0;
 }

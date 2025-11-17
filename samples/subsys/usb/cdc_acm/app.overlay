@@ -8,5 +8,11 @@
 	cdc_acm_uart0 {
 		compatible = "zephyr,cdc-acm-uart";
 		label = "Zephyr USB CDC-ACM";
+
+		gpio_uart: gpio-uart-line-control {
+			compatible = "zephyr,gpio-uart-line-control";
+			gpio-controller;
+			#gpio-cells = <1>;
+		};
 	};
 };
