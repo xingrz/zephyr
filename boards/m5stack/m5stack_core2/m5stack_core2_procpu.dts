@@ -101,7 +101,7 @@
 &uart1 {
 	status = "disabled";
 	current-speed = <115200>;
-	pinctrl-0 = <&uart1_rx_gpio33 &uart1_tx_gpio32>;
+	pinctrl-0 = <&uart1_tx_gpio14 &uart1_rx_gpio13>;
 	pinctrl-names = "default";
 };
 
