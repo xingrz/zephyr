@@ -1,0 +1,17 @@
+/*
+ * Copyright (c) 2025 Chen Xingyu <hi@xingrz.me>
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+#ifndef ZEPHYR_INCLUDE_DRIVERS_MFD_M5STACK_MODULE_HMI_H_
+#define ZEPHYR_INCLUDE_DRIVERS_MFD_M5STACK_MODULE_HMI_H_
+
+#define HMI_REG_COUNTER_VALUE       0x00
+#define HMI_REG_INCREMENT_VALUE     0x10
+#define HMI_REG_BUTTON_VALUE        0x20
+#define HMI_REG_LED                 0x30
+#define HMI_REG_COUNTER_RESET       0x40
+#define HMI_REG_FIRMWARE_VERSION    0xFE
+#define HMI_REG_I2C_ADDRESS_SETTING 0xFF
+
+#endif /* ZEPHYR_INCLUDE_DRIVERS_MFD_M5STACK_MODULE_HMI_H_ */

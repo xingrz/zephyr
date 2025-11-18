@@ -1,0 +1,14 @@
+# Copyright (c) 2025 Chen Xingyu <hi@xingrz.me>
+# SPDX-License-Identifier: Apache-2.0
+
+description: M5Stack Module HMI
+
+compatible: m5stack,module-hmi
+
+include: i2c-device.yaml
+
+bus: module-hmi
+
+properties:
+  reg:
+    required: true

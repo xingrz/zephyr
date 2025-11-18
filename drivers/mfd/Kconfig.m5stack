@@ -1,6 +1,14 @@
 # Copyright (c) 2025 Chen Xingyu <hi@xingrz.me>
 # SPDX-License-Identifier: Apache-2.0
 
+config MFD_M5STACK_MODULE_HMI
+	bool "M5Stack Module HMI multi-function device driver"
+	default y
+	depends on DT_HAS_M5STACK_MODULE_HMI_ENABLED
+	select I2C
+	help
+	  Enable the M5Stack Module HMI multi-function device driver
+
 config MFD_M5STACK_UNIT_BYTEBUTTON
 	bool "M5Stack Unit ByteButton/Switch multi-function device driver"
 	default y
