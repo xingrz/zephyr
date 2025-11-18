@@ -1,0 +1,44 @@
+/*
+ * Copyright (c) 2025 Chen Xingyu <hi@xingrz.me>
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+#include <zephyr/dt-bindings/input/input-event-codes.h>
+
+&m5stack_mbus_i2c0 {
+	module-hmi@41 {
+		compatible = "m5stack,module-hmi";
+		reg = <0x41>;
+		status = "okay";
+
+		hmi_encoder: module-hmi-encoder {
+			compatible = "m5stack,module-hmi-encoder";
+			status = "okay";
+		};
+
+		hmi_input: module-hmi-input {
+			compatible = "m5stack,module-hmi-input";
+			status = "okay";
+			#address-cells = <1>;
+			#size-cells = <0>;
+
+			btn-s@0 {
+				reg = <0>;
+				label = "BTN_S";
+				zephyr,code = <INPUT_KEY_S>;
+			};
+
+			btn-a@1 {
+				reg = <1>;
+				label = "BTN_A";
+				zephyr,code = <INPUT_KEY_A>;
+			};
+
+			btn-b@2 {
+				reg = <2>;
+				label = "BTN_B";
+				zephyr,code = <INPUT_KEY_B>;
+			};
+		};
+	};
+};

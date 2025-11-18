@@ -1,0 +1,7 @@
+shield:
+  name: m5stack_module_hmi
+  full_name: M5Stack Module HMI shield
+  vendor: m5stack
+  supported_features:
+    - input
+    - sensor
