@@ -6,6 +6,7 @@
 / {
 	m5stack_mbus_header: m5stack_mbus_connector {
 		compatible = "m5stack,mbus-header";
+		vin-supply = <&bus_5v>;
 		#gpio-cells = <2>;
 		gpio-map-mask = <0xffffffff 0xffffffc0>;
 		gpio-map-pass-thru = <0 0x3f>;
