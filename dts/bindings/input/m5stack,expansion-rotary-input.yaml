@@ -1,0 +1,28 @@
+# Copyright (c) 2025 Chen Xingyu <hi@xingrz.me>
+# SPDX-License-Identifier: Apache-2.0
+
+description: M5Stack expansion rotary input
+
+compatible: m5stack,expansion-rotary-input
+
+include: base.yaml
+
+properties:
+  reg:
+    required: true
+
+  reg-names:
+    required: true
+
+  poll-interval-ms:
+    type: int
+    default: 100
+    description: |
+      Polling interval in milliseconds. If not specified defaults to 100.
+
+  zephyr,axis:
+    type: int
+    required: true
+    description: |
+      The input code for the axis to report for the device, typically any of
+      INPUT_REL_*.

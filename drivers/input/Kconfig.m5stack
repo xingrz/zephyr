@@ -10,6 +10,15 @@ config INPUT_M5_EXPANSION_KEY
 	help
 	  Enable the M5Stack expansion key input driver
 
+config INPUT_M5_EXPANSION_ROTARY
+	bool "M5Stack expansion rotary input driver"
+	default y
+	depends on DT_HAS_M5STACK_EXPANSION_ROTARY_INPUT_ENABLED
+	depends on DT_HAS_M5STACK_GROVE_PORTA_ENABLED || DT_HAS_M5STACK_MBUS_ENABLED
+	select I2C
+	help
+	  Enable the M5Stack expansion rotary input driver
+
 config INPUT_M5_EXPANSION_INIT_PRIORITY
 	int "Initialization priority for M5Stack expansion input drivers"
 	default 91
