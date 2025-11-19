@@ -1,0 +1,21 @@
+# Copyright (c) 2025 Chen Xingyu <hi@xingrz.me>
+# SPDX-License-Identifier: Apache-2.0
+
+config MFD_M5_EXPANSION
+	bool "MFD driver for M5Stack PORT.A/M-bus I2C expansions"
+	default y
+	depends on DT_HAS_M5STACK_GROVE_PORTA_ENABLED || \
+		   DT_HAS_M5STACK_MBUS_ENABLED
+	select I2C
+	help
+	  Enable the M5Stack PORT.A/M-bus I2C multi-function device driver
+
+config MFD_M5_EXPANSION_INIT_PRIORITY
+	int "Initialization priority for M5Stack PORT.A/M-bus I2C MFD drivers"
+	default 90
+	help
+	  Initialization priority for M5Stack PORT.A/M-bus I2C multi-function
+	  device drivers.
+
+	  This priority must be greater than that of the I2C bus and any
+	  regulators these devices depend on.
