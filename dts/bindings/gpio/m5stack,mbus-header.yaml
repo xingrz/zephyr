@@ -25,4 +25,4 @@ description: |
 
 compatible: "m5stack,mbus-header"
 
-include: [gpio-nexus.yaml, base.yaml]
+include: [gpio-nexus.yaml, power.yaml, base.yaml]
