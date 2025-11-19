@@ -1,0 +1,20 @@
+# Copyright (c) 2025 Chen Xingyu <hi@xingrz.me>
+# SPDX-License-Identifier: Apache-2.0
+
+config INPUT_M5_EXPANSION_KEY
+	bool "M5Stack expansion key input driver"
+	default y
+	depends on DT_HAS_M5STACK_EXPANSION_KEY_INPUT_ENABLED
+	depends on DT_HAS_M5STACK_GROVE_PORTA_ENABLED || DT_HAS_M5STACK_MBUS_ENABLED
+	select I2C
+	help
+	  Enable the M5Stack expansion key input driver
+
+config INPUT_M5_EXPANSION_INIT_PRIORITY
+	int "Initialization priority for M5Stack expansion input drivers"
+	default 91
+	help
+	  Initialization priority for M5Stack expansion input device drivers.
+
+	  This priority must be greater than that of the M5Stack expansion MFDs
+	  to ensure proper initialization ordering.

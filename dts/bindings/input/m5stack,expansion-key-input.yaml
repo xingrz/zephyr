@@ -1,0 +1,36 @@
+# Copyright (c) 2025 Chen Xingyu <hi@xingrz.me>
+# SPDX-License-Identifier: Apache-2.0
+
+description: M5Stack expansion key input
+
+compatible: m5stack,expansion-key-input
+
+include: base.yaml
+
+properties:
+  reg:
+    required: true
+
+  "#address-cells":
+    const: 1
+  "#size-cells":
+    const: 0
+
+  poll-interval-ms:
+    type: int
+    default: 100
+    description: |
+      Polling interval in milliseconds. If not specified defaults to 100.
+
+child-binding:
+  description: Input button configuration
+  properties:
+    reg:
+      type: int
+      required: true
+      description: Button index starting from 0
+
+    zephyr,code:
+      type: int
+      required: true
+      description: Key code as defined in input-event-codes.h
