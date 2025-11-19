@@ -1,0 +1,25 @@
+# Copyright (c) 2025 Chen Xingyu <hi@xingrz.me>
+# SPDX-License-Identifier: Apache-2.0
+
+description: M5Stack expansion LED strip
+
+compatible: m5stack,expansion-led-strip
+
+include: [led-strip.yaml, base.yaml]
+
+properties:
+  reg:
+    required: true
+
+  reg-names:
+    required: true
+
+  pixel-stride:
+    type: int
+    description: Number of bytes per pixel
+    default: 3
+
+  pixel-offset:
+    type: int
+    description: Offset of the first pixel data byte within a pixel
+    default: 0
