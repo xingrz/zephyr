@@ -1,0 +1,22 @@
+# Copyright (c) 2025 Chen Xingyu <hi@xingrz.me>
+# SPDX-License-Identifier: Apache-2.0
+
+description: M5Stack expansion GPIO
+
+compatible: m5stack,expansion-gpio
+
+include: [gpio-controller.yaml, base.yaml]
+
+properties:
+  reg:
+    required: true
+
+  reg-names:
+    required: true
+
+  "#gpio-cells":
+    const: 2
+
+gpio-cells:
+  - pin
+  - flags
