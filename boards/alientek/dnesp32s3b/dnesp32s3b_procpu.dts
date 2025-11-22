@@ -121,6 +121,11 @@
 		address-width = <8>;
 		timeout = <5>;
 	};
+
+	qmi8658a@6a {
+		compatible = "qst,qmi8658";
+		reg = <0x6a>;
+	};
 };
 
 &i2s0 {
