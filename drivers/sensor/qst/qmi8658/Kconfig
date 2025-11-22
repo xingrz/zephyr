@@ -1,0 +1,10 @@
+# Copyright (c) 2025 Chen Xingyu <hi@xingrz.me>
+# SPDX-License-Identifier: Apache-2.0
+
+config QMI8658
+	bool "QST QMI8658 6-axis IMU sensor driver"
+	default y
+	depends on DT_HAS_QST_QMI8658_ENABLED
+	select I2C if $(dt_compat_on_bus,$(DT_COMPAT_QST_QMI8658),i2c)
+	help
+	  Enable the QST QMI8658 6-axis IMU sensor driver

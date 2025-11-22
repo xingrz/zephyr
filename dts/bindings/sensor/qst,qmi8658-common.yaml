@@ -1,0 +1,17 @@
+# Copyright (c) 2025 Chen Xingyu <hi@xingrz.me>
+# SPDX-License-Identifier: Apache-2.0
+
+description: QST QMI8658 6-axis IMU sensor
+
+compatible: qst,qmi8658
+
+include: sensor-device.yaml
+
+properties:
+  int1-gpios:
+    type: phandle-array
+    description: GPIO connected to INT1 pin of the sensor
+
+  int2-gpios:
+    type: phandle-array
+    description: GPIO connected to INT2 pin of the sensor

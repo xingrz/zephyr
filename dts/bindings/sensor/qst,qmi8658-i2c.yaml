@@ -1,0 +1,8 @@
+# Copyright (c) 2025 Chen Xingyu <hi@xingrz.me>
+# SPDX-License-Identifier: Apache-2.0
+
+description: QST QMI8658 6-axis IMU sensor on I2C bus
+
+compatible: qst,qmi8658
+
+include: ["i2c-device.yaml", "qst,qmi8658-common.yaml"]
