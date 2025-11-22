@@ -565,6 +565,7 @@ qiaodian	QiaoDian XianShi Corporation
 qihua	Chengdu Kaixuan Information Technology Co., Ltd.
 qnap	QNAP Systems, Inc.
 qorvo	Qorvo, Inc.
+qst	QST Corporation Limited
 quectel	Quectel Wireless Solutions Co., Ltd.
 quicklogic	QuickLogic Corp.
 radxa	Radxa
