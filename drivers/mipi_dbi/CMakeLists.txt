@@ -16,6 +16,7 @@ endif()
 
 # zephyr-keep-sorted-start
 zephyr_sources_ifdef(CONFIG_MIPI_DBI_BITBANG mipi_dbi_bitbang.c)
+zephyr_sources_ifdef(CONFIG_MIPI_DBI_ESP32 mipi_dbi_esp32.c)
 zephyr_sources_ifdef(CONFIG_MIPI_DBI_NXP_DCNANO_LCDIF mipi_dbi_nxp_dcnano_lcdif.c)
 zephyr_sources_ifdef(CONFIG_MIPI_DBI_NXP_FLEXIO_LCDIF mipi_dbi_nxp_flexio_lcdif.c)
 zephyr_sources_ifdef(CONFIG_MIPI_DBI_NXP_LCDIC mipi_dbi_nxp_lcdic.c)
