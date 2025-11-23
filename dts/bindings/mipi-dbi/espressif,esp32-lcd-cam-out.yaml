@@ -1,0 +1,51 @@
+# Copyright (c) 2025 Chen Xingyu <hi@xingrz.me>
+# SPDX-License-Identifier: Apache-2.0
+
+description: ESP32 LCD controller
+
+compatible: "espressif,esp32-lcd-cam-out"
+
+include: [mipi-dbi-controller.yaml, pinctrl-device.yaml]
+
+properties:
+  dmas:
+    type: phandle-array
+    description: TX DMA channel specifier used to feed the LCD FIFO.
+
+  dma-names:
+    type: string-array
+
+  reset-gpios:
+    type: phandle-array
+    description: Optional GPIO connected to the panel reset line.
+
+  cs-gpios:
+    type: phandle-array
+    description: Optional GPIO used to control the panel chip-select line.
+
+child-binding:
+  description: Configuration for display connected to the controller
+  properties:
+    dc-idle-level:
+      type: int
+      enum: [0, 1]
+      description: Physical level on the DC line for idle phase.
+      default: 0
+
+    dc-cmd-level:
+      type: int
+      enum: [0, 1]
+      description: Physical level on the DC line for command phase.
+      default: 0
+
+    dc-dummy-level:
+      type: int
+      enum: [0, 1]
+      description: Physical level on the DC line for dummy phase.
+      default: 0
+
+    dc-data-level:
+      type: int
+      enum: [0, 1]
+      description: Physical level on the DC line for data phase.
+      default: 1
